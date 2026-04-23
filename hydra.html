@@ -1,1 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WayVe's World | Hydra</title>
+    <style>
+      :root {
+        --bg-dark: #05030c;
+        --bg-mid: #12081f;
+        --bg-deep: #090611;
+        --pink: #ff6ad5;
+        --purple: #b967ff;
+        --blue: #6aa8ff;
+        --cyan: #77f7ff;
+        --white: #ffffff;
+        --panel: rgba(255, 255, 255, 0.08);
+        --border: rgba(255, 255, 255, 0.16);
+        --shadow-soft: 0 0 24px rgba(255, 106, 213, 0.2);
+        --shadow-strong: 0 0 44px rgba(185, 103, 255, 0.24);
+      }
 
+      * { box-sizing: border-box; }
+      html, body { margin: 0; min-height: 100%; }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        color: var(--white);
+        background:
+          radial-gradient(circle at top left, rgba(255, 106, 213, 0.18), transparent 18%),
+          radial-gradient(circle at top right, rgba(185, 103, 255, 0.18), transparent 24%),
+          radial-gradient(circle at bottom center, rgba(106, 168, 255, 0.12), transparent 22%),
+          linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-mid) 45%, var(--bg-deep) 100%);
+        overflow: hidden;
+      }
+
+      a { color: inherit; text-decoration: none; }
+      button { font: inherit; }
+
+      .background-glow {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 0;
+      }
+
+      .glow-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.9;
+        animation: drift 10s ease-in-out infinite;
+      }
+
+      .glow-orb.one {
+        width: 320px;
+        height: 320px;
+        top: 8%;
+        left: 4%;
+        background: rgba(255, 106, 213, 0.22);
+      }
+
+      .glow-orb.two {
+        width: 380px;
+        height: 380px;
+        top: 12%;
+        right: 4%;
+        background: rgba(185, 103, 255, 0.22);
+        animation-delay: -2.5s;
+      }
+
+      .glow-orb.three {
+        width: 360px;
+        height: 360px;
+        bottom: -8%;
+        left: 28%;
+        background: rgba(119, 247, 255, 0.14);
+        animation-delay: -5s;
+      }
+
+      @keyframes drift {
+        0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+        25% { transform: translate3d(22px, -16px, 0) scale(1.05); }
+        50% { transform: translate3d(-18px, 18px, 0) scale(0.96); }
+        75% { transform: translate3d(16px, 10px, 0) scale(1.03); }
+      }
+
+      .hydra-canvas {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+
+      .overlay-shell {
+        position: relative;
+        z-index: 3;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 1.2rem;
+      }
+
+      .top-bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.9rem;
+      }
+
+      .brand {
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+      }
+
+      .top-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      .glow-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        min-height: 46px;
+        padding: 0.8rem 1.2rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.2);
+        background: rgba(255,255,255,0.06);
+        color: var(--white);
+        font-size: 0.95rem;
+        font-weight: 600;
+        box-shadow: 0 0 18px rgba(255,106,213,0.22), 0 0 28px rgba(185,103,255,0.14);
+        transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        cursor: pointer;
+        backdrop-filter: blur(12px);
+      }
+
+      .glow-button:hover {
+        transform: translateY(-2px) scale(1.02);
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(255,255,255,0.34);
+        box-shadow: 0 0 24px rgba(255,106,213,0.34), 0 0 34px rgba(106,168,255,0.18);
+      }
+
+      .panel {
+        border-radius: 2rem;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        backdrop-filter: blur(16px);
+        box-shadow: var(--shadow-strong);
+      }
+
+      .hero-overlay {
+        flex: 1;
+        display: grid;
+        place-items: center;
+      }
+
+      .start-panel {
+        width: min(760px, 100%);
+        padding: 1.7rem;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.7rem 1rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.16);
+        background: rgba(255,255,255,0.06);
+        box-shadow: var(--shadow-soft);
+        margin-bottom: 1.2rem;
+        font-size: 0.84rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+      }
+
+      .sparkle-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        box-shadow: 0 0 14px var(--pink);
+      }
+
+      h1 {
+        margin: 0 0 1rem;
+        font-size: clamp(2.7rem, 8vw, 5.8rem);
+        line-height: 0.96;
+      }
+
+      h2 {
+        margin: 0 0 0.7rem;
+        font-size: clamp(1.4rem, 3vw, 2rem);
+      }
+
+      p {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.8;
+      }
+
+      .hero-copy {
+        max-width: 640px;
+      }
+
+      .hero-actions,
+      .track-list,
+      .control-grid,
+      .mini-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.85rem;
+      }
+
+      .hero-actions,
+      .mini-tags { margin-top: 1.3rem; }
+
+      .mini-tag {
+        padding: 0.56rem 0.95rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.14);
+        background: rgba(255,255,255,0.06);
+        font-size: 0.9rem;
+      }
+
+      .bottom-panel-wrap {
+        position: fixed;
+        left: 1.2rem;
+        right: 1.2rem;
+        bottom: 1.2rem;
+        z-index: 4;
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 1rem;
+      }
+
+      .control-panel,
+      .track-panel {
+        padding: 1.2rem;
+      }
+
+      .section-kicker {
+        margin-bottom: 0.55rem;
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+      }
+
+      .control-grid {
+        margin-top: 1rem;
+      }
+
+      .control-chip,
+      .track-chip {
+        padding: 0.8rem 1rem;
+        border-radius: 1.2rem;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(0,0,0,0.22);
+      }
+
+      .control-chip strong,
+      .track-chip strong {
+        display: block;
+        margin-bottom: 0.25rem;
+        font-size: 0.95rem;
+      }
+
+      .track-list {
+        margin-top: 1rem;
+        flex-direction: column;
+      }
+
+      .track-chip {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .track-chip.active {
+        border-color: rgba(255,255,255,0.28);
+        box-shadow: 0 0 22px rgba(255,106,213,0.18);
+      }
+
+      .status-pill {
+        padding: 0.45rem 0.8rem;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.14);
+        font-size: 0.84rem;
+        white-space: nowrap;
+      }
+
+      .hidden { display: none !important; }
+
+      .overlay-note {
+        position: fixed;
+        left: 50%;
+        top: 1.2rem;
+        transform: translateX(-50%);
+        z-index: 5;
+        padding: 0.8rem 1rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.14);
+        background: rgba(0,0,0,0.28);
+        backdrop-filter: blur(10px);
+        font-size: 0.92rem;
+        box-shadow: var(--shadow-soft);
+      }
+
+      @media (max-width: 980px) {
+        .bottom-panel-wrap {
+          position: static;
+          grid-template-columns: 1fr;
+          margin-top: 1rem;
+        }
+
+        .overlay-shell {
+          overflow-y: auto;
+          padding-bottom: 1.2rem;
+        }
+
+        body {
+          overflow: auto;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .top-actions,
+        .hero-actions {
+          width: 100%;
+        }
+
+        .top-actions .glow-button,
+        .hero-actions .glow-button,
+        .track-chip .glow-button {
+          width: 100%;
+        }
+
+        .track-chip {
+          flex-direction: column;
+          align-items: stretch;
+        }
+      }
+    </style>
+    <script src="https://unpkg.com/hydra-synth"></script>
+  </head>
+  <body>
+    <div class="background-glow">
+      <div class="glow-orb one"></div>
+      <div class="glow-orb two"></div>
+      <div class="glow-orb three"></div>
+    </div>
+
+    <canvas id="hydra-canvas" class="hydra-canvas"></canvas>
+
+    <div class="overlay-note" id="overlay-note">Move your mouse to bend the visuals • Space = play/pause</div>
+
+    <div class="overlay-shell">
+      <div class="top-bar">
+        <div class="brand">WAYVE'S WORLD</div>
+        <div class="top-actions">
+          <a class="glow-button" href="index.html">Back Home</a>
+          <a class="glow-button" href="music.html">Music Page</a>
+          <button class="glow-button" id="play-toggle" type="button">Play / Pause</button>
+        </div>
+      </div>
+
+      <div class="hero-overlay" id="hero-overlay">
+        <div class="panel start-panel" id="start-panel">
+          <div class="eyebrow">
+            <span class="sparkle-dot"></span>
+            <span>Hydra Experience</span>
+          </div>
+          <div class="hero-copy">
+            <h1>Step deeper into WayVe's World.</h1>
+            <p>
+              This page is your dedicated audio-visual environment: a full-screen Hydra experience with mouse interaction,
+              track-based presets, and live motion that reacts to sound. It stays in the same style system as the rest of the site,
+              but becomes its own immersive world.
+            </p>
+          </div>
+          <div class="mini-tags">
+            <span class="mini-tag">Audio-reactive</span>
+            <span class="mini-tag">Mouse-responsive</span>
+            <span class="mini-tag">Track presets</span>
+          </div>
+          <div class="hero-actions">
+            <button class="glow-button" id="start-button" type="button">Start Visuals + Audio</button>
+            <a class="glow-button" href="music.html">Return to Music</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-panel-wrap hidden" id="bottom-panel-wrap">
+        <div class="panel control-panel">
+          <div class="section-kicker">Visualizer controls</div>
+          <h2 id="mode-title">Dreamwave preset</h2>
+          <p id="mode-description">
+            Soft orbiting waves, glowing gradients, and smooth motion designed for atmospheric listening.
+          </p>
+          <div class="control-grid">
+            <div class="control-chip">
+              <strong>Mouse input</strong>
+              Horizontal movement shifts rotation and depth. Vertical movement changes scaling and drift.
+            </div>
+            <div class="control-chip">
+              <strong>Audio response</strong>
+              Bass expands the structure, mids shape the texture, and treble brightens the color movement.
+            </div>
+            <div class="control-chip">
+              <strong>Preset logic</strong>
+              Each track can carry its own visual mood so songs feel distinct instead of sharing one look.
+            </div>
+          </div>
+        </div>
+
+        <div class="panel track-panel">
+          <div class="section-kicker">Track selector</div>
+          <h2>Hydra-ready songs</h2>
+          <div class="track-list" id="track-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <audio id="audio-player" crossorigin="anonymous"></audio>
+
+    <script>
+      const tracks = [
+        {
+          title: "Iridescent",
+          file: "Iridescent.mp3",
+          preset: "dreamwave",
+          description: "Dreamy color fields and spiritual glow.",
+        },
+        {
+          title: "House",
+          file: "house.wav",
+          preset: "pulsefield",
+          description: "Restless rotational energy with sharper pulse.",
+        },
+        {
+          title: "Afterlife",
+          file: "Afterlife.mp3",
+          preset: "afterglow",
+          description: "Slower emotional waves with softer bloom and feedback.",
+        },
+      ];
+
+      const presetInfo = {
+        dreamwave: {
+          title: "Dreamwave preset",
+          description: "Soft orbiting waves, glowing gradients, and smooth motion designed for atmospheric listening.",
+        },
+        pulsefield: {
+          title: "Pulsefield preset",
+          description: "Faster rotational movement and stronger pulse response for more tense, restless tracks.",
+        },
+        afterglow: {
+          title: "Afterglow preset",
+          description: "Softer bloom, slower drift, and lingering feedback for reflective or emotional songs.",
+        },
+      };
+
+      const audio = document.getElementById("audio-player");
+      const startButton = document.getElementById("start-button");
+      const playToggle = document.getElementById("play-toggle");
+      const heroOverlay = document.getElementById("hero-overlay");
+      const bottomPanelWrap = document.getElementById("bottom-panel-wrap");
+      const modeTitle = document.getElementById("mode-title");
+      const modeDescription = document.getElementById("mode-description");
+      const trackList = document.getElementById("track-list");
+
+      let hydra;
+      let hydraStarted = false;
+      let audioCtx;
+      let analyser;
+      let dataArray;
+      let lvl = 0;
+      let bass = 0;
+      let mid = 0;
+      let treb = 0;
+      let currentTrackIndex = 0;
+      let smoothX = 0;
+      let smoothY = 0;
+      const mouse = { x: 0, y: 0 };
+
+      window.addEventListener("mousemove", (event) => {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = (event.clientY / window.innerHeight) * 2 - 1;
+      });
+
+      function easeMouse() {
+        smoothX += (mouse.x - smoothX) * 0.06;
+        smoothY += (mouse.y - smoothY) * 0.06;
+        requestAnimationFrame(easeMouse);
+      }
+      easeMouse();
+
+      function renderTrackButtons() {
+        trackList.innerHTML = "";
+        tracks.forEach((track, index) => {
+          const item = document.createElement("div");
+          item.className = `track-chip ${index === currentTrackIndex ? "active" : ""}`;
+          item.innerHTML = `
+            <div>
+              <strong>${track.title}</strong>
+              <div>${track.description}</div>
+            </div>
+            <button class="glow-button" type="button">Load Track</button>
+          `;
+          const button = item.querySelector("button");
+          button.addEventListener("click", async () => {
+            await loadTrack(index, true);
+          });
+          trackList.appendChild(item);
+        });
+      }
+
+      function updatePresetText(preset) {
+        const active = presetInfo[preset] || presetInfo.dreamwave;
+        modeTitle.textContent = active.title;
+        modeDescription.textContent = active.description;
+      }
+
+      function setupAudioGraph() {
+        if (audioCtx) return;
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const source = audioCtx.createMediaElementSource(audio);
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 1024;
+        analyser.smoothingTimeConstant = 0.2;
+        source.connect(analyser);
+        analyser.connect(audioCtx.destination);
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+        updateBands();
+      }
+
+      function updateBands() {
+        if (!analyser) return;
+        analyser.getByteFrequencyData(dataArray);
+        const n = dataArray.length;
+        const bassEnd = Math.floor(n * 0.1);
+        const midEnd = Math.floor(n * 0.45);
+
+        let bassSum = 0;
+        let midSum = 0;
+        let trebSum = 0;
+
+        for (let i = 0; i < bassEnd; i++) bassSum += dataArray[i];
+        for (let i = bassEnd; i < midEnd; i++) midSum += dataArray[i];
+        for (let i = midEnd; i < n; i++) trebSum += dataArray[i];
+
+        const b = bassSum / (bassEnd || 1) / 255;
+        const m = midSum / (midEnd - bassEnd || 1) / 255;
+        const t = trebSum / (n - midEnd || 1) / 255;
+        const level = (b + m + t) / 3;
+        const k = 0.85;
+        const smooth = (prev, next) => prev * k + next * (1 - k);
+
+        lvl = smooth(lvl, level);
+        bass = smooth(bass, b);
+        mid = smooth(mid, m);
+        treb = smooth(treb, t);
+
+        requestAnimationFrame(updateBands);
+      }
+
+      function buildHydra() {
+        if (hydra) return;
+        hydra = new Hydra({
+          detectAudio: false,
+          canvas: document.getElementById("hydra-canvas"),
+        });
+      }
+
+      function startDreamwave() {
+        osc(() => 5 + 20 * bass, 0.02, () => 0.25 + 0.2 * mid)
+          .rotate(() => time * 0.03 + 0.18 * bass + smoothX * 0.14)
+          .kaleid(() => 3 + Math.floor(3 * treb))
+          .scale(() => 1.02 + 0.05 * lvl + smoothY * 0.05)
+          .color(() => 1.0 + 0.3 * treb, 0.5 + 0.25 * mid, 1.1)
+          .saturate(() => 1.0 + 1.1 * treb)
+          .out(o1);
+
+        noise(() => 2 + 5 * mid, () => 0.08 + 0.18 * treb)
+          .scrollX(() => smoothX * 0.08)
+          .scrollY(() => smoothY * 0.05)
+          .contrast(() => 1.0 + 0.7 * lvl)
+          .out(o2);
+
+        src(o0).scale(() => 1.002 + 0.028 * bass).out(o3);
+
+        src(o1)
+          .blend(src(o2), () => 0.25 + 0.18 * mid)
+          .blend(src(o3), 0.42)
+          .hue(() => 0.02 + 0.1 * lvl)
+          .out(o0);
+
+        render(o0);
+      }
+
+      function startPulsefield() {
+        osc(() => 9 + 35 * bass, 0.035, () => 0.4 + 0.22 * treb)
+          .rotate(() => time * 0.05 + 0.35 * bass + smoothX * 0.16)
+          .kaleid(() => 4 + Math.floor(4 * treb))
+          .scale(() => 1.0 + 0.08 * lvl + smoothY * 0.04)
+          .modulate(noise(() => 2 + 4 * mid), () => 0.08 + 0.14 * bass)
+          .color(1.2, () => 0.3 + 0.4 * mid, () => 0.8 + 0.5 * treb)
+          .out(o1);
+
+        shape(() => 3 + Math.floor(5 * treb), () => 0.2 + 0.18 * bass, 0.001)
+          .repeat(2, 2)
+          .rotate(() => time * 0.02 - smoothX * 0.2)
+          .scrollY(() => smoothY * 0.06)
+          .out(o2);
+
+        src(o1)
+          .blend(src(o2), () => 0.22 + 0.2 * mid)
+          .blend(src(o0).scale(() => 1.003 + 0.04 * bass), 0.34)
+          .out(o0);
+
+        render(o0);
+      }
+
+      function startAfterglow() {
+        osc(() => 4 + 14 * bass, 0.015, () => 0.18 + 0.14 * mid)
+          .rotate(() => time * 0.02 + 0.12 * bass + smoothX * 0.08)
+          .scale(() => 1.01 + 0.03 * lvl + smoothY * 0.03)
+          .color(() => 0.95 + 0.2 * treb, 0.4 + 0.15 * mid, 1.2)
+          .out(o1);
+
+        voronoi(() => 2 + 2.5 * treb, () => 0.25 + 0.18 * bass, 0.3)
+          .brightness(() => -0.1 + 0.08 * lvl)
+          .scrollX(() => smoothX * 0.03)
+          .scrollY(() => smoothY * 0.03)
+          .out(o2);
+
+        src(o1)
+          .blend(src(o2), () => 0.18 + 0.16 * mid)
+          .blend(src(o0).scale(() => 1.001 + 0.022 * bass), 0.5)
+          .hue(() => 0.01 + 0.08 * treb)
+          .out(o0);
+
+        render(o0);
+      }
+
+      function applyPreset(preset) {
+        solid(0, 0, 0, 1).out(o0);
+        solid(0, 0, 0, 1).out(o1);
+        solid(0, 0, 0, 1).out(o2);
+        solid(0, 0, 0, 1).out(o3);
+
+        if (preset === "pulsefield") {
+          startPulsefield();
+        } else if (preset === "afterglow") {
+          startAfterglow();
+        } else {
+          startDreamwave();
+        }
+        updatePresetText(preset);
+      }
+
+      async function loadTrack(index, autoplay = false) {
+        currentTrackIndex = index;
+        const track = tracks[index];
+        audio.src = track.file;
+        updatePresetText(track.preset);
+        renderTrackButtons();
+        if (hydraStarted) {
+          applyPreset(track.preset);
+        }
+        if (autoplay) {
+          try {
+            await audio.play();
+          } catch (error) {
+            console.warn(error);
+          }
+        }
+      }
+
+      audio.addEventListener("ended", async () => {
+        const nextIndex = (currentTrackIndex + 1) % tracks.length;
+        await loadTrack(nextIndex, true);
+      });
+
+      async function startExperience() {
+        if (!hydraStarted) {
+          buildHydra();
+          setupAudioGraph();
+          if (audioCtx) await audioCtx.resume();
+          hydraStarted = true;
+          heroOverlay.classList.add("hidden");
+          bottomPanelWrap.classList.remove("hidden");
+          const activeTrack = tracks[currentTrackIndex];
+          applyPreset(activeTrack.preset);
+        }
+        await loadTrack(currentTrackIndex, true);
+      }
+
+      startButton.addEventListener("click", startExperience);
+
+      playToggle.addEventListener("click", async () => {
+        if (!hydraStarted) {
+          await startExperience();
+          return;
+        }
+        if (audioCtx && audioCtx.state === "suspended") {
+          await audioCtx.resume();
+        }
+        if (audio.paused) {
+          try {
+            await audio.play();
+          } catch (error) {
+            console.warn(error);
+          }
+        } else {
+          audio.pause();
+        }
+      });
+
+      window.addEventListener("keydown", async (event) => {
+        if (event.code === "Space") {
+          event.preventDefault();
+          playToggle.click();
+        }
+      });
+
+      renderTrackButtons();
+      updatePresetText(tracks[0].preset);
+      audio.src = tracks[0].file;
+    </script>
+  </body>
+</html>
