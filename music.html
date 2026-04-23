@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WayVe's World | Music</title>
+    <style>
+      :root {
+        --bg-dark: #080510;
+        --bg-mid: #12081f;
+        --bg-deep: #090611;
+        --pink: #ff6ad5;
+        --purple: #b967ff;
+        --blue: #6aa8ff;
+        --cyan: #77f7ff;
+        --white: #ffffff;
+        --panel: rgba(255, 255, 255, 0.06);
+        --border: rgba(255, 255, 255, 0.14);
+        --shadow-soft: 0 0 24px rgba(255, 106, 213, 0.18);
+        --shadow-strong: 0 0 40px rgba(185, 103, 255, 0.22);
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        color: var(--white);
+        background:
+          radial-gradient(circle at top left, rgba(255, 106, 213, 0.18), transparent 20%),
+          radial-gradient(circle at top right, rgba(185, 103, 255, 0.18), transparent 26%),
+          radial-gradient(circle at bottom center, rgba(106, 168, 255, 0.12), transparent 24%),
+          linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-mid) 48%, var(--bg-deep) 100%);
+        min-height: 100vh;
+      }
+
+      a { color: inherit; text-decoration: none; }
+      .page-shell { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; }
+
+      .top-nav {
+        display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+        gap: 1rem; padding: 1.5rem 0 1rem;
+      }
+      .brand { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.22em; }
+      .nav-links { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+      .glow-button {
+        display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+        min-height: 46px; padding: 0.8rem 1.2rem; border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05);
+        color: var(--white); font-size: 0.95rem; font-weight: 600;
+        box-shadow: 0 0 18px rgba(255,106,213,0.22), 0 0 28px rgba(185,103,255,0.14);
+        transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        cursor: pointer;
+      }
+      .glow-button:hover {
+        transform: translateY(-2px) scale(1.02);
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(255,255,255,0.35);
+        box-shadow: 0 0 24px rgba(255,106,213,0.34), 0 0 34px rgba(106,168,255,0.18);
+      }
+
+      .hero, .section { padding-bottom: 3.5rem; }
+      .hero { padding-top: 1rem; }
+      .hero-grid, .intro-grid, .music-grid, .track-grid, .footer-card {
+        display: grid; gap: 1.25rem;
+      }
+      .hero-grid { grid-template-columns: 1.1fr 0.9fr; align-items: center; }
+      .intro-grid { grid-template-columns: 0.9fr 1.1fr; }
+      .music-grid { grid-template-columns: 1fr 1fr; }
+      .track-grid { grid-template-columns: 1fr; }
+
+      .panel, .section-card, .track-card, .footer-card {
+        border-radius: 2rem; border: 1px solid var(--border); background: var(--panel); backdrop-filter: blur(14px);
+      }
+      .panel, .section-card, .track-card { padding: 1.6rem; }
+      .panel { box-shadow: var(--shadow-strong); }
+      .section-card, .track-card, .footer-card { box-shadow: var(--shadow-soft); }
+      .footer-card { padding: 1.3rem 1.5rem; grid-template-columns: 1fr auto; align-items: center; }
+
+      .eyebrow, .section-kicker {
+        font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em;
+      }
+      .eyebrow {
+        display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.7rem 1rem;
+        border-radius: 999px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);
+        box-shadow: var(--shadow-soft); margin-bottom: 1.2rem;
+      }
+      .sparkle-dot {
+        width: 10px; height: 10px; border-radius: 50%;
+        background: linear-gradient(135deg, var(--pink), var(--purple)); box-shadow: 0 0 14px var(--pink);
+      }
+
+      h1 { margin: 0 0 1rem; font-size: clamp(2.6rem, 7vw, 5rem); line-height: 1; }
+      h2 { margin: 0 0 0.85rem; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.08; }
+      h3 { margin: 0 0 0.5rem; font-size: 1.45rem; }
+      p { margin: 0; line-height: 1.85; font-size: 1rem; }
+      .section-header { margin-bottom: 1.4rem; }
+      .hero-actions, .button-row, .track-actions, .mini-tags { display: flex; flex-wrap: wrap; gap: 0.85rem; }
+      .hero-actions, .button-row { margin-top: 1.4rem; }
+      .mini-tags { margin-top: 1rem; }
+      .mini-tag {
+        padding: 0.55rem 0.9rem; border-radius: 999px; border: 1px solid rgba(255,255,255,0.14);
+        background: rgba(255,255,255,0.06); font-size: 0.9rem;
+      }
+
+      .track-card { position: relative; overflow: hidden; }
+      .track-card::before {
+        content: ""; position: absolute; inset: 0;
+        background: linear-gradient(135deg, rgba(255,106,213,0.08), rgba(185,103,255,0.03));
+        pointer-events: none;
+      }
+      .track-card-content { position: relative; }
+      .track-meta { font-size: 0.95rem; margin-bottom: 0.9rem; color: rgba(255,255,255,0.95); }
+      .track-description { margin-bottom: 1rem; }
+      .lyrics-block {
+        margin-top: 1rem; padding: 1rem 1.1rem; border-radius: 1.35rem; border: 1px solid rgba(255,255,255,0.1);
+        background: rgba(0,0,0,0.18);
+      }
+      .lyrics-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; }
+
+      .quick-links {
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; margin-top: 1rem;
+      }
+      .quick-link {
+        padding: 1rem; border-radius: 1.35rem; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2);
+      }
+      .quick-link strong { display: block; margin-bottom: 0.35rem; }
+
+      .footer { padding-bottom: 2.5rem; }
+
+      @media (max-width: 980px) {
+        .hero-grid, .intro-grid, .music-grid, .quick-links { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 680px) {
+        .page-shell { width: min(100% - 1.2rem, 1180px); }
+        .nav-links, .hero-actions, .button-row, .track-actions { width: 100%; }
+        .nav-links .glow-button, .hero-actions .glow-button, .button-row .glow-button, .track-actions .glow-button { width: 100%; }
+        .footer-card { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <nav class="top-nav">
+          <div class="brand">WAYVE'S WORLD</div>
+          <div class="nav-links">
+            <a class="glow-button" href="index.html">Home</a>
+            <a class="glow-button" href="music.html">Music</a>
+            <a class="glow-button" href="art.html">Art &amp; Design</a>
+            <a class="glow-button" href="video.html">Video</a>
+            <a class="glow-button" href="hydra.html">Hydra</a>
+            <a class="glow-button" href="connect.html">Connect</a>
+          </div>
+        </nav>
+
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow">
+              <span class="sparkle-dot"></span>
+              <span>Music by WayVe</span>
+            </div>
+            <h1>Music</h1>
+            <p>
+              A more organized music page for featured releases, newest tracks, lyrics, and project notes.
+              This version keeps your glow, your color palette, and your voice, but makes the page easier to
+              navigate and easier to grow.
+            </p>
+            <div class="hero-actions">
+              <a class="glow-button" href="#featured-tracks">Featured tracks</a>
+              <a class="glow-button" href="hydra.html">Open Hydra</a>
+            </div>
+          </div>
+
+          <div class="panel">
+            <p class="section-kicker">Music page direction</p>
+            <h2>One cleaner catalog instead of scattered sections</h2>
+            <p>
+              Your older music files had strong material, but used multiple menus, repeated buttons, and overlapping sections.
+              This version keeps the stories and tracks, while bringing them into one shared system that matches the rest of WayVe's World.
+            </p>
+            <div class="mini-tags">
+              <span class="mini-tag">Featured Tracks</span>
+              <span class="mini-tag">Lyrics</span>
+              <span class="mini-tag">Process Notes</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="section">
+          <div class="intro-grid">
+            <div class="section-card">
+              <p class="section-kicker">About the music</p>
+              <h2>Story-first, emotion-led, always evolving</h2>
+              <p>
+                Music has been a constant in your life for years, and this page is built to reflect that clearly.
+                Instead of stacking everything into one long list, tracks can live in focused cards with room for background,
+                lyrics, and inspiration.
+              </p>
+            </div>
+
+            <div class="section-card">
+              <p class="section-kicker">How this page works</p>
+              <h2>Featured tracks now, playlist and Hydra next</h2>
+              <p>
+                This page is designed to hold your core music catalog, while Hydra becomes the separate immersive listening-and-visual experience.
+                That way the portfolio stays readable, and Hydra stays special.
+              </p>
+              <div class="quick-links">
+                <div class="quick-link">
+                  <strong>Featured</strong>
+                  Main songs and highlights
+                </div>
+                <div class="quick-link">
+                  <strong>Newest</strong>
+                  Process and recent work
+                </div>
+                <div class="quick-link">
+                  <strong>Little's Music</strong>
+                  A separate child-focused section
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="featured-tracks">
+          <div class="section-header">
+            <p class="section-kicker">Featured tracks</p>
+            <h2>Core songs and stories</h2>
+          </div>
+
+          <div class="music-grid">
+            <article class="track-card">
+              <div class="track-card-content">
+                <h3>House</h3>
+                <p class="track-meta">Electronic / Experimental • Presented at West Fork New Music Festival, NSEME LSU • 2017</p>
+                <p class="track-description">
+                  “House” represents the mind and the thoughts that dwell inside it — especially intrusive thoughts that repeat and replay. Inspired by your own inability to sleep, it also reflects your early electronic music period and love of synthesizers, layered harmonies, and chopped vocal fragments.
+                </p>
+                <div class="track-actions">
+                  <a class="glow-button" href="#">Add audio file</a>
+                  <a class="glow-button" href="hydra.html">Hydra preset later</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="track-card">
+              <div class="track-card-content">
+                <h3>Iridescent</h3>
+                <p class="track-meta">Alt Pop / Songwriter • Presented at Durango Songwriters Expo • 2020</p>
+                <p class="track-description">
+                  A reflective, color-soaked track centered on perception, mind, and spiritual imagery. This is the kind of song that naturally connects to a visual world, making it a strong candidate for a future Hydra preset.
+                </p>
+                <div class="lyrics-block">
+                  <div class="lyrics-title">Lyrics highlight</div>
+                  <p>
+                    Yeah, I see these colors all the time.<br />
+                    It really messed with my mind.<br /><br />
+                    I can see the colors through the lens of the spiritual.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <article class="track-card">
+              <div class="track-card-content">
+                <h3>Reincarnation</h3>
+                <p class="track-meta">Pop Ballad / Reflection • Durango Songwriters Expo • 2020</p>
+                <p class="track-description">
+                  Inspired in part by the 1997 film “Selena,” this piece holds both sadness and hope — reflecting on absence, legacy, and the possibility that a spirit or life-force can continue to inspire through art.
+                </p>
+              </div>
+            </article>
+
+            <article class="track-card">
+              <div class="track-card-content">
+                <h3>Afterlife</h3>
+                <p class="track-meta">Piano / Vocal Process • Recent work</p>
+                <p class="track-description">
+                  A strong example of your process: hearing a melody internally, figuring it out by ear, layering piano parts in Logic, and shaping the song through performance and recording. The emotional tone reflects a deeply personal period in your life.
+                </p>
+                <div class="button-row">
+                  <a class="glow-button" href="#">Instrumental version</a>
+                  <a class="glow-button" href="#">Vocal version</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="section-kicker">Additional sections</p>
+            <h2>Newest tracks and Little's Music</h2>
+          </div>
+
+          <div class="music-grid">
+            <div class="section-card">
+              <h3>Newest tracks</h3>
+              <p>
+                This section can hold your newest releases, demos, and in-progress ideas without getting mixed into the main featured catalog. It is perfect for experiments, process notes, and alternate versions.
+              </p>
+              <div class="mini-tags">
+                <span class="mini-tag">Afterlife</span>
+                <span class="mini-tag">Age of the Dinosaurs</span>
+                <span class="mini-tag">New releases</span>
+              </div>
+            </div>
+
+            <div class="section-card">
+              <h3>Little's Music</h3>
+              <p>
+                Keep this as its own subsection for child-focused or separate themed music, rather than hiding it inside the main track list. That makes the catalog easier to understand and gives this body of work its own identity.
+              </p>
+              <div class="mini-tags">
+                <span class="mini-tag">Age of the Dinosaurs</span>
+                <span class="mini-tag">Don't You Cry</span>
+                <span class="mini-tag">Teapot</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-card">
+            <p class="section-kicker">Next step</p>
+            <h2>Connect the music page to Hydra</h2>
+            <p>
+              Once this page is in place, we can build the Hydra page so specific songs launch custom visual experiences.
+              That gives you a clean portfolio page for browsing, and a separate immersive page for audio-reactive visuals.
+            </p>
+            <div class="hero-actions">
+              <a class="glow-button" href="index.html">Back to main page</a>
+              <a class="glow-button" href="hydra.html">Go to Hydra</a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-card">
+          <div>&copy; 2026 WayVe's World</div>
+          <div>Designed by Mya Payne</div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
