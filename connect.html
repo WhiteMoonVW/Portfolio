@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WayVe's World | Connect</title>
+    <style>
+      :root {
+        --bg-dark: #080510;
+        --bg-mid: #12081f;
+        --bg-deep: #090611;
+        --pink: #ff6ad5;
+        --purple: #b967ff;
+        --blue: #6aa8ff;
+        --cyan: #77f7ff;
+        --white: #ffffff;
+        --panel: rgba(255, 255, 255, 0.06);
+        --border: rgba(255, 255, 255, 0.14);
+        --shadow-soft: 0 0 24px rgba(255, 106, 213, 0.18);
+        --shadow-strong: 0 0 40px rgba(185, 103, 255, 0.22);
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        color: var(--white);
+        background:
+          radial-gradient(circle at top left, rgba(255, 106, 213, 0.18), transparent 20%),
+          radial-gradient(circle at top right, rgba(185, 103, 255, 0.18), transparent 26%),
+          radial-gradient(circle at bottom center, rgba(106, 168, 255, 0.12), transparent 24%),
+          linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-mid) 48%, var(--bg-deep) 100%);
+        min-height: 100vh;
+      }
+
+      a { color: inherit; text-decoration: none; }
+      .page-shell { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; }
+
+      .top-nav {
+        display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+        gap: 1rem; padding: 1.5rem 0 1rem;
+      }
+      .brand { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.22em; }
+      .nav-links { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+      .glow-button {
+        display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+        min-height: 46px; padding: 0.8rem 1.2rem; border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05);
+        color: var(--white); font-size: 0.95rem; font-weight: 600;
+        box-shadow: 0 0 18px rgba(255,106,213,0.22), 0 0 28px rgba(185,103,255,0.14);
+        transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        cursor: pointer;
+      }
+      .glow-button:hover {
+        transform: translateY(-2px) scale(1.02);
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(255,255,255,0.35);
+        box-shadow: 0 0 24px rgba(255,106,213,0.34), 0 0 34px rgba(106,168,255,0.18);
+      }
+
+      .hero, .section { padding-bottom: 3.5rem; }
+      .hero { padding-top: 1rem; }
+      .hero-grid, .connect-grid, .footer-card {
+        display: grid; gap: 1.25rem;
+      }
+      .hero-grid { grid-template-columns: 1.08fr 0.92fr; align-items: center; }
+      .connect-grid { grid-template-columns: 1fr 1fr; }
+
+      .panel, .connect-card, .footer-card {
+        border-radius: 2rem; border: 1px solid var(--border); background: var(--panel); backdrop-filter: blur(14px);
+      }
+      .panel, .connect-card { padding: 1.6rem; }
+      .panel { box-shadow: var(--shadow-strong); }
+      .connect-card, .footer-card { box-shadow: var(--shadow-soft); }
+      .footer-card { padding: 1.3rem 1.5rem; grid-template-columns: 1fr auto; align-items: center; }
+
+      .eyebrow, .section-kicker {
+        font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em;
+      }
+      .eyebrow {
+        display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.7rem 1rem;
+        border-radius: 999px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);
+        box-shadow: var(--shadow-soft); margin-bottom: 1.2rem;
+      }
+      .sparkle-dot {
+        width: 10px; height: 10px; border-radius: 50%;
+        background: linear-gradient(135deg, var(--pink), var(--purple)); box-shadow: 0 0 14px var(--pink);
+      }
+
+      h1 { margin: 0 0 1rem; font-size: clamp(2.6rem, 7vw, 5rem); line-height: 1; }
+      h2 { margin: 0 0 0.85rem; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.08; }
+      h3 { margin: 0 0 0.5rem; font-size: 1.45rem; }
+      p { margin: 0; line-height: 1.85; font-size: 1rem; }
+      .hero-actions, .mini-tags, .link-stack { display: flex; flex-wrap: wrap; gap: 0.85rem; }
+      .hero-actions, .mini-tags, .link-stack { margin-top: 1.25rem; }
+      .mini-tag {
+        padding: 0.55rem 0.9rem; border-radius: 999px; border: 1px solid rgba(255,255,255,0.14);
+        background: rgba(255,255,255,0.06); font-size: 0.9rem;
+      }
+      .section-header { margin-bottom: 1.4rem; }
+
+      .contact-line {
+        margin-top: 1rem; padding: 1rem 1.1rem; border-radius: 1.35rem;
+        border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.18);
+      }
+      .contact-label {
+        display: block; margin-bottom: 0.35rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em;
+      }
+      .social-link {
+        width: 100%; justify-content: space-between;
+      }
+
+      .footer { padding-bottom: 2.5rem; }
+
+      @media (max-width: 980px) {
+        .hero-grid, .connect-grid { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 680px) {
+        .page-shell { width: min(100% - 1.2rem, 1180px); }
+        .nav-links, .hero-actions, .link-stack { width: 100%; }
+        .nav-links .glow-button, .hero-actions .glow-button, .link-stack .glow-button { width: 100%; }
+        .footer-card { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <nav class="top-nav">
+          <div class="brand">WAYVE'S WORLD</div>
+          <div class="nav-links">
+            <a class="glow-button" href="index.html">Home</a>
+            <a class="glow-button" href="music.html">Music</a>
+            <a class="glow-button" href="art.html">Art &amp; Design</a>
+            <a class="glow-button" href="video.html">Video</a>
+            <a class="glow-button" href="hydra.html">Hydra</a>
+            <a class="glow-button" href="connect.html">Connect</a>
+          </div>
+        </nav>
+
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow">
+              <span class="sparkle-dot"></span>
+              <span>Connect with WayVe</span>
+            </div>
+            <h1>Let's connect.</h1>
+            <p>
+              A clean home for your social links, contact information, and future booking or collaboration details — all in the same visual system as the rest of WayVe's World.
+            </p>
+            <div class="hero-actions">
+              <a class="glow-button" href="#socials">View socials</a>
+              <a class="glow-button" href="index.html">Back to main page</a>
+            </div>
+          </div>
+
+          <div class="panel">
+            <p class="section-kicker">Page purpose</p>
+            <h2>One place for contact, socials, and future opportunities</h2>
+            <p>
+              Instead of scattering social links across pages, this page gives them one polished home. It can also grow later to include booking info, collaboration notes, a resume link, or a contact form.
+            </p>
+            <div class="mini-tags">
+              <span class="mini-tag">Social links</span>
+              <span class="mini-tag">Collaboration</span>
+              <span class="mini-tag">Contact hub</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="section" id="socials">
+          <div class="section-header">
+            <p class="section-kicker">Ways to reach you</p>
+            <h2>Socials and contact</h2>
+          </div>
+
+          <div class="connect-grid">
+            <div class="connect-card">
+              <h3>Primary contact</h3>
+              <p>
+                Use this area for the main way you want people to reach out for collaboration, creative opportunities, or questions about your work.
+              </p>
+
+              <div class="contact-line">
+                <span class="contact-label">Email</span>
+                <a href="mailto:yourname@example.com">yourname@example.com</a>
+              </div>
+
+              <div class="contact-line">
+                <span class="contact-label">Location / Availability</span>
+                <span>Add your city, remote availability, or project preferences here.</span>
+              </div>
+            </div>
+
+            <div class="connect-card">
+              <h3>Social platforms</h3>
+              <p>
+                Replace these placeholders with your real links so visitors can move from the portfolio directly into your music, content, and creative updates.
+              </p>
+
+              <div class="link-stack">
+                <a class="glow-button social-link" href="#">Instagram <span>@yourhandle</span></a>
+                <a class="glow-button social-link" href="#">YouTube <span>@yourchannel</span></a>
+                <a class="glow-button social-link" href="#">TikTok <span>@yourhandle</span></a>
+                <a class="glow-button social-link" href="#">SoundCloud / Streaming <span>Open</span></a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="connect-grid">
+            <div class="connect-card">
+              <p class="section-kicker">Creative use</p>
+              <h3>What this page can become later</h3>
+              <p>
+                This page can expand into a full contact hub with press links, embedded social previews, a downloadable resume, booking notes, or a short collaboration form.
+              </p>
+            </div>
+
+            <div class="connect-card">
+              <p class="section-kicker">Keep it connected</p>
+              <h3>Same theme, same world</h3>
+              <p>
+                Because this page uses the same navigation, buttons, spacing, and glow treatment as the rest of your site, it feels like part of the same creative environment instead of a separate utility page.
+              </p>
+              <div class="hero-actions">
+                <a class="glow-button" href="music.html">Go to Music</a>
+                <a class="glow-button" href="hydra.html">Go to Hydra</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-card">
+          <div>&copy; 2026 WayVe's World</div>
+          <div>Designed by Mya Payne</div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
