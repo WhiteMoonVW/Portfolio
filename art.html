@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WayVe's World | Art & Design</title>
+    <style>
+      :root {
+        --bg-dark: #080510;
+        --bg-mid: #12081f;
+        --bg-deep: #090611;
+        --pink: #ff6ad5;
+        --purple: #b967ff;
+        --blue: #6aa8ff;
+        --cyan: #77f7ff;
+        --white: #ffffff;
+        --panel: rgba(255, 255, 255, 0.06);
+        --panel-strong: rgba(255, 255, 255, 0.1);
+        --border: rgba(255, 255, 255, 0.14);
+        --shadow-soft: 0 0 24px rgba(255, 106, 213, 0.18);
+        --shadow-strong: 0 0 40px rgba(185, 103, 255, 0.22);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        color: var(--white);
+        background:
+          radial-gradient(circle at top left, rgba(255, 106, 213, 0.18), transparent 20%),
+          radial-gradient(circle at top right, rgba(185, 103, 255, 0.18), transparent 26%),
+          radial-gradient(circle at bottom center, rgba(106, 168, 255, 0.12), transparent 24%),
+          linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-mid) 48%, var(--bg-deep) 100%);
+        min-height: 100vh;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+        border-radius: 1.5rem;
+      }
+
+      .page-shell {
+        width: min(1180px, calc(100% - 2rem));
+        margin: 0 auto;
+      }
+
+      .top-nav {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.5rem 0 1rem;
+      }
+
+      .brand {
+        font-size: 1.05rem;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+      }
+
+      .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      .glow-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        min-height: 46px;
+        padding: 0.8rem 1.2rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--white);
+        font-size: 0.95rem;
+        font-weight: 600;
+        box-shadow: 0 0 18px rgba(255, 106, 213, 0.22), 0 0 28px rgba(185, 103, 255, 0.14);
+        transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        cursor: pointer;
+      }
+
+      .glow-button:hover {
+        transform: translateY(-2px) scale(1.02);
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.35);
+        box-shadow: 0 0 24px rgba(255, 106, 213, 0.34), 0 0 34px rgba(106, 168, 255, 0.18);
+      }
+
+      .hero {
+        padding: 1rem 0 3rem;
+      }
+
+      .hero-card,
+      .art-card,
+      .intro-card,
+      .footer-card {
+        border-radius: 2rem;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        backdrop-filter: blur(14px);
+      }
+
+      .hero-card,
+      .intro-card {
+        box-shadow: var(--shadow-strong);
+      }
+
+      .art-card,
+      .footer-card {
+        box-shadow: var(--shadow-soft);
+      }
+
+      .hero-card,
+      .intro-card,
+      .art-card {
+        padding: 1.6rem;
+      }
+
+      .hero-grid,
+      .intro-grid,
+      .art-grid {
+        display: grid;
+        gap: 1.25rem;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+        align-items: center;
+      }
+
+      .intro-grid {
+        grid-template-columns: 0.9fr 1.1fr;
+        align-items: start;
+      }
+
+      .art-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .eyebrow,
+      .section-kicker {
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.7rem 1rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.05);
+        box-shadow: var(--shadow-soft);
+        margin-bottom: 1.2rem;
+      }
+
+      .sparkle-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        box-shadow: 0 0 14px var(--pink);
+      }
+
+      h1 {
+        margin: 0 0 1rem;
+        font-size: clamp(2.6rem, 7vw, 5rem);
+        line-height: 1;
+      }
+
+      h2 {
+        margin: 0 0 0.85rem;
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        line-height: 1.08;
+      }
+
+      h3 {
+        margin: 0 0 0.65rem;
+        font-size: 1.5rem;
+      }
+
+      p {
+        margin: 0;
+        line-height: 1.85;
+        font-size: 1rem;
+      }
+
+      .hero-actions,
+      .footer-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.85rem;
+        margin-top: 1.4rem;
+      }
+
+      .section {
+        padding: 0 0 3.5rem;
+      }
+
+      .section-header {
+        margin-bottom: 1.4rem;
+      }
+
+      .art-card {
+        overflow: hidden;
+      }
+
+      .art-image-wrap {
+        margin-bottom: 1rem;
+        padding: 0.4rem;
+        border-radius: 1.7rem;
+        background: linear-gradient(135deg, rgba(255,106,213,0.18), rgba(185,103,255,0.08));
+      }
+
+      .art-meta {
+        margin-bottom: 0.85rem;
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.92);
+      }
+
+      .mini-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin-top: 1rem;
+      }
+
+      .mini-tag {
+        padding: 0.55rem 0.9rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.06);
+        font-size: 0.9rem;
+      }
+
+      .footer {
+        padding-bottom: 2.5rem;
+      }
+
+      .footer-card {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.3rem 1.5rem;
+      }
+
+      @media (max-width: 980px) {
+        .hero-grid,
+        .intro-grid,
+        .art-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .page-shell {
+          width: min(100% - 1.2rem, 1180px);
+        }
+
+        .nav-links,
+        .hero-actions,
+        .footer-actions {
+          width: 100%;
+        }
+
+        .nav-links .glow-button,
+        .hero-actions .glow-button,
+        .footer-actions .glow-button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <nav class="top-nav">
+          <div class="brand">WAYVE'S WORLD</div>
+          <div class="nav-links">
+            <a class="glow-button" href="index.html">Home</a>
+            <a class="glow-button" href="music.html">Music</a>
+            <a class="glow-button" href="art.html">Art &amp; Design</a>
+            <a class="glow-button" href="video.html">Video</a>
+            <a class="glow-button" href="hydra.html">Hydra</a>
+            <a class="glow-button" href="connect.html">Connect</a>
+          </div>
+        </nav>
+
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow">
+              <span class="sparkle-dot"></span>
+              <span>Visual worlds by WayVe</span>
+            </div>
+            <h1>Art &amp; Design</h1>
+            <p>
+              A dedicated gallery for digital art, concept imagery, cover-inspired visuals,
+              and design work — all built with the same neon-glow atmosphere as the rest of
+              WayVe's World.
+            </p>
+            <div class="hero-actions">
+              <a class="glow-button" href="#gallery">View gallery</a>
+              <a class="glow-button" href="index.html">Back to main page</a>
+            </div>
+          </div>
+
+          <div class="hero-card">
+            <p class="section-kicker">Page direction</p>
+            <h2>Same theme, stronger structure</h2>
+            <p>
+              Your older art page had good content, but this version brings it into the same system
+              as the homepage: one navigation bar, one button style, one glow-box language, and a
+              cleaner way to present each piece.
+            </p>
+            <div class="mini-tags">
+              <span class="mini-tag">Digital Art</span>
+              <span class="mini-tag">Visual Concepts</span>
+              <span class="mini-tag">Design Storytelling</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="section">
+          <div class="intro-grid">
+            <div class="intro-card">
+              <p class="section-kicker">About this page</p>
+              <h2>A gallery that feels like part of the same world</h2>
+              <p>
+                This page is meant to hold your digital art, cover work, graphics, and visual experiments
+                without feeling disconnected from your music and portfolio identity. The goal is to let the
+                artwork stand out while keeping the same dreamy, immersive style system.
+              </p>
+            </div>
+
+            <div class="intro-card">
+              <p class="section-kicker">What fits here</p>
+              <h2>Art, design, and visual direction</h2>
+              <p>
+                You can expand this page later with more pieces, project categories, process blurbs, album art,
+                poster concepts, branding visuals, and even links that connect specific art pieces to songs or
+                Hydra presets.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="gallery">
+          <div class="section-header">
+            <p class="section-kicker">Featured work</p>
+            <h2>Current gallery pieces</h2>
+          </div>
+
+          <div class="art-grid">
+            <article class="art-card">
+              <div class="art-image-wrap">
+                <img src="watching.png" alt="An eye with a pink iris and black pupil, within a vaporwave orb, within a vaporwave triangle." />
+              </div>
+              <h3>Big Brother is Watching</h3>
+              <p class="art-meta">Digital Art by Mya Payne</p>
+              <p>
+                Inspired by surveillance, authority, and the feeling of always being watched. The eye suggests an
+                all-seeing force, while the vaporwave framing adds surrealism, nostalgia, and a dreamlike digital tension.
+              </p>
+            </article>
+
+            <article class="art-card">
+              <div class="art-image-wrap">
+                <img src="Eye-for-an-eye.png" alt="A smaller eye nestled in the corner of a bigger eye, with vaporwave static and color-scheme." />
+              </div>
+              <h3>Eye for an Eye</h3>
+              <p class="art-meta">Digital Art by Mya Payne</p>
+              <p>
+                A piece about introspection and self-reflection. The smaller eye suggests an inner self nested inside a larger external reality,
+                while the vaporwave palette gives the work a surreal, psychological atmosphere.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="intro-card">
+            <p class="section-kicker">Next upgrades</p>
+            <h2>How to grow this page</h2>
+            <p>
+              Add more artwork as individual cards, group pieces into collections, or build a modal/gallery view later.
+              You can also add project notes, medium tags, and links to related music or video pieces so your portfolio feels more connected across mediums.
+            </p>
+            <div class="footer-actions">
+              <a class="glow-button" href="index.html">Back Home</a>
+              <a class="glow-button" href="hydra.html">Go to Hydra</a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-card">
+          <div>&copy; 2026 WayVe's World</div>
+          <div>Designed by Mya Payne</div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
