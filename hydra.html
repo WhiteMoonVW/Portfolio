@@ -6,28 +6,47 @@
     <title>White Moon Productions | Hydra</title>
     <style>
       :root {
-        --bg-dark: #05030c;
-        --bg-mid: #12081f;
-        --bg-deep: #090611;
         --pink: #ff6ad5;
         --purple: #b967ff;
         --blue: #6aa8ff;
         --cyan: #77f7ff;
         --white: #ffffff;
         --black: #000000;
-        --panel: rgba(255, 255, 255, 0.08);
-        --border: rgba(255, 255, 255, 0.16);
-        --shadow-soft: 0 0 24px rgba(255, 106, 213, 0.2);
-        --shadow-strong: 0 0 44px rgba(185, 103, 255, 0.24);
+        --panel: rgba(255, 255, 255, 0.12);
+        --panel-dark: rgba(0, 0, 0, 0.26);
+        --border: rgba(255, 255, 255, 0.22);
+        --shadow-soft: 0 0 24px rgba(255, 106, 213, 0.22);
+        --shadow-strong: 0 0 44px rgba(185, 103, 255, 0.28);
+        --mouse-x: 50%;
+        --mouse-y: 50%;
       }
 
       * { box-sizing: border-box; }
       html, body { margin: 0; min-height: 100%; }
+
       body {
         font-family: Arial, Helvetica, sans-serif;
-        color: #000000;
+        color: var(--black);
         background: url("WMVW.png") no-repeat center center fixed;
         background-size: cover;
+        overflow: auto;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(255, 106, 213, 0.38), transparent 23%),
+          radial-gradient(circle at 18% 82%, rgba(119, 247, 255, 0.2), transparent 30%),
+          radial-gradient(circle at 86% 16%, rgba(185, 103, 255, 0.22), transparent 32%),
+          rgba(255, 255, 255, 0.16);
+        pointer-events: none;
+        z-index: 1;
+        mix-blend-mode: screen;
+      }
+
+      body.fullscreen-active {
         overflow: hidden;
       }
 
@@ -40,13 +59,14 @@
         pointer-events: none;
         overflow: hidden;
         z-index: 0;
+        transition: transform 0.18s ease-out;
       }
 
       .glow-orb {
         position: absolute;
         border-radius: 50%;
         filter: blur(80px);
-        opacity: 0.9;
+        opacity: 0.88;
         animation: drift 10s ease-in-out infinite;
       }
 
@@ -55,7 +75,7 @@
         height: 320px;
         top: 8%;
         left: 4%;
-        background: rgba(255, 106, 213, 0.22);
+        background: rgba(255, 106, 213, 0.28);
       }
 
       .glow-orb.two {
@@ -63,7 +83,7 @@
         height: 380px;
         top: 12%;
         right: 4%;
-        background: rgba(185, 103, 255, 0.22);
+        background: rgba(185, 103, 255, 0.26);
         animation-delay: -2.5s;
       }
 
@@ -72,8 +92,41 @@
         height: 360px;
         bottom: -8%;
         left: 28%;
-        background: rgba(119, 247, 255, 0.14);
+        background: rgba(119, 247, 255, 0.18);
         animation-delay: -5s;
+      }
+
+      .glow-orb.four {
+        width: 300px;
+        height: 300px;
+        bottom: 12%;
+        right: 18%;
+        background: rgba(106, 168, 255, 0.24);
+        animation-delay: -7s;
+      }
+
+      .grid-overlay {
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+        background-size: 48px 48px;
+        opacity: 0.16;
+        animation: gridMove 14s linear infinite;
+      }
+
+      .scanlines {
+        position: fixed;
+        inset: 0;
+        background: repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,0.08),
+          rgba(255,255,255,0.08) 1px,
+          transparent 1px,
+          transparent 5px
+        );
+        opacity: 0.1;
       }
 
       @keyframes drift {
@@ -83,17 +136,23 @@
         75% { transform: translate3d(16px, 10px, 0) scale(1.03); }
       }
 
+      @keyframes gridMove {
+        from { transform: translateY(0); }
+        to { transform: translateY(48px); }
+      }
+
       .hydra-canvas {
         position: fixed;
         inset: 0;
         width: 100%;
         height: 100%;
-        z-index: 1;
+        z-index: 2;
+        opacity: 0.82;
       }
 
-      .overlay-shell {
+      .page-ui {
         position: relative;
-        z-index: 3;
+        z-index: 4;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
@@ -110,14 +169,19 @@
 
       .brand {
         font-size: 1rem;
-        font-weight: 700;
+        font-weight: 800;
         letter-spacing: 0.22em;
+        text-transform: uppercase;
       }
 
-      .top-actions {
+      .top-actions,
+      .hero-actions,
+      .track-list,
+      .control-grid,
+      .mini-tags {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.75rem;
+        gap: 0.85rem;
       }
 
       .glow-button {
@@ -128,11 +192,11 @@
         min-height: 46px;
         padding: 0.8rem 1.2rem;
         border-radius: 999px;
-        border: 1px solid rgba(255,255,255,0.2);
-        background: rgba(255,255,255,0.06);
-        color: #000000;
+        border: 1px solid rgba(255,255,255,0.26);
+        background: rgba(255,255,255,0.16);
+        color: var(--black);
         font-size: 0.95rem;
-        font-weight: 600;
+        font-weight: 800;
         box-shadow: 0 0 18px rgba(255,106,213,0.22), 0 0 28px rgba(185,103,255,0.14);
         transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         cursor: pointer;
@@ -141,8 +205,8 @@
 
       .glow-button:hover {
         transform: translateY(-2px) scale(1.02);
-        background: rgba(255,255,255,0.1);
-        border-color: rgba(255,255,255,0.34);
+        background: rgba(255,255,255,0.24);
+        border-color: rgba(255,255,255,0.48);
         box-shadow: 0 0 24px rgba(255,106,213,0.34), 0 0 34px rgba(106,168,255,0.18);
       }
 
@@ -150,7 +214,7 @@
         border-radius: 2rem;
         border: 1px solid var(--border);
         background: var(--panel);
-        backdrop-filter: blur(16px);
+        backdrop-filter: blur(18px);
         box-shadow: var(--shadow-strong);
       }
 
@@ -158,11 +222,12 @@
         flex: 1;
         display: grid;
         place-items: center;
+        padding: 2rem 0;
       }
 
       .start-panel {
-        width: min(760px, 100%);
-        padding: 1.7rem;
+        width: min(820px, 100%);
+        padding: 1.8rem;
       }
 
       .eyebrow {
@@ -171,12 +236,12 @@
         gap: 0.6rem;
         padding: 0.7rem 1rem;
         border-radius: 999px;
-        border: 1px solid rgba(255,255,255,0.16);
-        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.2);
+        background: rgba(255,255,255,0.14);
         box-shadow: var(--shadow-soft);
         margin-bottom: 1.2rem;
         font-size: 0.84rem;
-        font-weight: 700;
+        font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 0.18em;
       }
@@ -204,41 +269,26 @@
         margin: 0;
         font-size: 1rem;
         line-height: 1.8;
+        font-weight: 600;
       }
 
-      .hero-copy {
-        max-width: 640px;
-      }
-
-      .hero-actions,
-      .track-list,
-      .control-grid,
-      .mini-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.85rem;
-      }
-
-      .hero-actions,
-      .mini-tags { margin-top: 1.3rem; }
+      .hero-copy { max-width: 680px; }
+      .hero-actions, .mini-tags { margin-top: 1.3rem; }
 
       .mini-tag {
         padding: 0.56rem 0.95rem;
         border-radius: 999px;
-        border: 1px solid rgba(255,255,255,0.14);
-        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.18);
+        background: rgba(255,255,255,0.14);
         font-size: 0.9rem;
+        font-weight: 800;
       }
 
-      .bottom-panel-wrap {
-        position: fixed;
-        left: 1.2rem;
-        right: 1.2rem;
-        bottom: 1.2rem;
-        z-index: 4;
+      .selection-panel-wrap {
         display: grid;
         grid-template-columns: 1.2fr 0.8fr;
         gap: 1rem;
+        margin-top: auto;
       }
 
       .control-panel,
@@ -249,21 +299,20 @@
       .section-kicker {
         margin-bottom: 0.55rem;
         font-size: 0.82rem;
-        font-weight: 700;
+        font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 0.2em;
       }
 
-      .control-grid {
-        margin-top: 1rem;
-      }
+      .control-grid { margin-top: 1rem; }
 
       .control-chip,
       .track-chip {
-        padding: 0.8rem 1rem;
+        padding: 0.85rem 1rem;
         border-radius: 1.2rem;
-        border: 1px solid rgba(255,255,255,0.12);
-        background: rgba(0,0,0,0.22);
+        border: 1px solid rgba(255,255,255,0.18);
+        background: rgba(255,255,255,0.14);
+        font-weight: 700;
       }
 
       .control-chip strong,
@@ -286,66 +335,81 @@
       }
 
       .track-chip.active {
-        border-color: rgba(255,255,255,0.28);
-        box-shadow: 0 0 22px rgba(255,106,213,0.18);
+        border-color: rgba(255,255,255,0.48);
+        box-shadow: 0 0 22px rgba(255,106,213,0.28);
+        background: rgba(255,255,255,0.24);
       }
 
-      .status-pill {
-        padding: 0.45rem 0.8rem;
+      .visual-stage {
+        position: fixed;
+        inset: 0;
+        z-index: 5;
+        display: none;
+        background: rgba(0, 0, 0, 0.04);
+      }
+
+      body.fullscreen-active .visual-stage {
+        display: block;
+      }
+
+      body.fullscreen-active .page-ui {
+        display: none;
+      }
+
+      .visual-controls {
+        position: fixed;
+        z-index: 8;
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+        pointer-events: auto;
+      }
+
+      .now-playing {
         border-radius: 999px;
-        background: rgba(255,255,255,0.08);
-        border: 1px solid rgba(255,255,255,0.14);
-        font-size: 0.84rem;
-        white-space: nowrap;
+        padding: 0.75rem 1rem;
+        border: 1px solid rgba(255,255,255,0.28);
+        background: rgba(255,255,255,0.18);
+        backdrop-filter: blur(14px);
+        box-shadow: var(--shadow-soft);
+        font-weight: 800;
+      }
+
+      .visual-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
       }
 
       .hidden { display: none !important; }
 
-      .overlay-note {
-        position: fixed;
-        left: 50%;
-        top: 1.2rem;
-        transform: translateX(-50%);
-        z-index: 5;
-        padding: 0.8rem 1rem;
-        border-radius: 999px;
-        border: 1px solid rgba(255,255,255,0.14);
-        background: rgba(0,0,0,0.28);
-        backdrop-filter: blur(10px);
-        font-size: 0.92rem;
-        box-shadow: var(--shadow-soft);
-      }
-
       @media (max-width: 980px) {
-        .bottom-panel-wrap {
-          position: static;
+        .selection-panel-wrap {
           grid-template-columns: 1fr;
-          margin-top: 1rem;
-        }
-
-        .overlay-shell {
-          overflow-y: auto;
-          padding-bottom: 1.2rem;
-        }
-
-        body {
-          overflow: auto;
         }
       }
 
       @media (max-width: 680px) {
         .top-actions,
-        .hero-actions {
+        .hero-actions,
+        .visual-actions {
           width: 100%;
         }
 
         .top-actions .glow-button,
         .hero-actions .glow-button,
+        .visual-actions .glow-button,
         .track-chip .glow-button {
           width: 100%;
         }
 
-        .track-chip {
+        .track-chip,
+        .visual-controls {
           flex-direction: column;
           align-items: stretch;
         }
@@ -354,17 +418,18 @@
     <script src="https://unpkg.com/hydra-synth"></script>
   </head>
   <body>
-    <div class="background-glow">
+    <div class="background-glow" id="background-glow">
       <div class="glow-orb one"></div>
       <div class="glow-orb two"></div>
       <div class="glow-orb three"></div>
+      <div class="glow-orb four"></div>
+      <div class="grid-overlay"></div>
+      <div class="scanlines"></div>
     </div>
 
     <canvas id="hydra-canvas" class="hydra-canvas"></canvas>
 
-    <div class="overlay-note" id="overlay-note">Move your mouse to bend the visuals • Space = play/pause</div>
-
-    <div class="overlay-shell">
+    <div class="page-ui" id="page-ui">
       <div class="top-bar">
         <div class="brand">White Moon Music Visualizer</div>
         <div class="top-actions">
@@ -383,23 +448,23 @@
           <div class="hero-copy">
             <h1>Step deeper into WayVe's World.</h1>
             <p>
-              A full-screen Hydra experience with mouse interaction,
-              track-based presets, and live motion that reacts to sound.
+              Choose a track, launch fullscreen visuals, and move your mouse to bend the motion, depth, glow, and color of the experience.
             </p>
           </div>
           <div class="mini-tags">
-            <span class="mini-tag">Audio-reactive</span>
             <span class="mini-tag">Mouse-responsive</span>
+            <span class="mini-tag">Audio-reactive</span>
+            <span class="mini-tag">Fullscreen mode</span>
             <span class="mini-tag">Track presets</span>
           </div>
           <div class="hero-actions">
-            <button class="glow-button" id="start-button" type="button">Start Visuals + Audio</button>
-            <a class="glow-button" href="music.html">Return to Music</a>
+            <button class="glow-button" id="start-button" type="button">Start Selected Track</button>
+            <button class="glow-button" id="fullscreen-button" type="button">Enter Fullscreen Visuals</button>
           </div>
         </div>
       </div>
 
-      <div class="bottom-panel-wrap hidden" id="bottom-panel-wrap">
+      <div class="selection-panel-wrap" id="selection-panel-wrap">
         <div class="panel control-panel">
           <div class="section-kicker">Visualizer controls</div>
           <h2 id="mode-title">Dreamwave preset</h2>
@@ -408,24 +473,35 @@
           </p>
           <div class="control-grid">
             <div class="control-chip">
-              <strong>Mouse input</strong>
-              Horizontal movement shifts rotation and depth. Vertical movement changes scaling and drift.
+              <strong>Mouse movement</strong>
+              Move side-to-side to shift rotation. Move up and down to change scale, drift, and visual pressure.
             </div>
             <div class="control-chip">
-              <strong>Audio response</strong>
-              Bass expands the structure, mids shape the texture, and treble brightens the color movement.
+              <strong>Fullscreen mode</strong>
+              The fullscreen button hides the menus so the visuals can take over the whole page.
             </div>
             <div class="control-chip">
-              <strong>Preset logic</strong>
-              Each track can carry its own visual mood so songs feel distinct instead of sharing one look.
+              <strong>Return button</strong>
+              Use Back to Music Selections to return to this track list without leaving the page.
             </div>
           </div>
         </div>
 
         <div class="panel track-panel">
-          <div class="section-kicker">Track selector</div>
-          <h2>Hydra-ready songs</h2>
+          <div class="section-kicker">Music selections</div>
+          <h2>Choose a track</h2>
           <div class="track-list" id="track-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="visual-stage" id="visual-stage">
+      <div class="visual-controls">
+        <div class="now-playing" id="now-playing">Now playing: Iridescent</div>
+        <div class="visual-actions">
+          <button class="glow-button" id="back-to-selections" type="button">Back to Music Selections</button>
+          <button class="glow-button" id="stage-play-toggle" type="button">Play / Pause</button>
+          <button class="glow-button" id="next-track" type="button">Next Track</button>
         </div>
       </div>
     </div>
@@ -438,45 +514,61 @@
           title: "Iridescent",
           file: "Iridescent (VMoonWave Remix).mp3",
           preset: "dreamwave",
-          description: "Dreamy color fields and spiritual glow.",
+          description: "Dreamy color fields and spiritual glow."
         },
         {
           title: "House",
           file: "House 2026.mp3",
           preset: "pulsefield",
-          description: "Restless rotational energy with sharper pulse.",
+          description: "Restless rotational energy with sharper pulse."
         },
         {
           title: "Open Up Your Mind",
           file: "Open Up Your Mind - 2026.mp3",
           preset: "afterglow",
-          description: "Slower emotional waves with softer bloom and feedback.",
+          description: "Slower emotional waves with softer bloom and feedback."
         },
+        {
+          title: "Afterlife",
+          file: "Afterlife.mp3",
+          preset: "moonpool",
+          description: "Floating piano energy with watery lunar motion."
+        }
       ];
 
       const presetInfo = {
         dreamwave: {
           title: "Dreamwave preset",
-          description: "Soft orbiting waves, glowing gradients, and smooth motion designed for atmospheric listening.",
+          description: "Soft orbiting waves, glowing gradients, and smooth motion designed for atmospheric listening."
         },
         pulsefield: {
           title: "Pulsefield preset",
-          description: "Faster rotational movement and stronger pulse response for more tense, restless tracks.",
+          description: "Faster rotational movement and stronger pulse response for more tense, restless tracks."
         },
         afterglow: {
           title: "Afterglow preset",
-          description: "Softer bloom, slower drift, and lingering feedback for reflective or emotional songs.",
+          description: "Softer bloom, slower drift, and lingering feedback for reflective or emotional songs."
         },
+        moonpool: {
+          title: "Moonpool preset",
+          description: "Watery symmetry, lunar color shifts, and slow emotional feedback for spacious tracks."
+        }
       };
 
+      const root = document.documentElement;
+      const body = document.body;
       const audio = document.getElementById("audio-player");
       const startButton = document.getElementById("start-button");
+      const fullscreenButton = document.getElementById("fullscreen-button");
       const playToggle = document.getElementById("play-toggle");
-      const heroOverlay = document.getElementById("hero-overlay");
-      const bottomPanelWrap = document.getElementById("bottom-panel-wrap");
+      const stagePlayToggle = document.getElementById("stage-play-toggle");
+      const backToSelections = document.getElementById("back-to-selections");
+      const nextTrack = document.getElementById("next-track");
       const modeTitle = document.getElementById("mode-title");
       const modeDescription = document.getElementById("mode-description");
       const trackList = document.getElementById("track-list");
+      const nowPlaying = document.getElementById("now-playing");
+      const backgroundGlow = document.getElementById("background-glow");
 
       let hydra;
       let hydraStarted = false;
@@ -493,8 +585,13 @@
       const mouse = { x: 0, y: 0 };
 
       window.addEventListener("mousemove", (event) => {
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = (event.clientY / window.innerHeight) * 2 - 1;
+        const x = event.clientX / window.innerWidth;
+        const y = event.clientY / window.innerHeight;
+        mouse.x = x * 2 - 1;
+        mouse.y = y * 2 - 1;
+        root.style.setProperty("--mouse-x", `${x * 100}%`);
+        root.style.setProperty("--mouse-y", `${y * 100}%`);
+        backgroundGlow.style.transform = `translate(${(x - 0.5) * 34}px, ${(y - 0.5) * 34}px)`;
       });
 
       function easeMouse() {
@@ -516,9 +613,8 @@
             </div>
             <button class="glow-button" type="button">Load Track</button>
           `;
-          const button = item.querySelector("button");
-          button.addEventListener("click", async () => {
-            await loadTrack(index, true);
+          item.querySelector("button").addEventListener("click", async () => {
+            await loadTrack(index, false);
           });
           trackList.appendChild(item);
         });
@@ -528,6 +624,10 @@
         const active = presetInfo[preset] || presetInfo.dreamwave;
         modeTitle.textContent = active.title;
         modeDescription.textContent = active.description;
+      }
+
+      function updateNowPlaying() {
+        nowPlaying.textContent = `Now playing: ${tracks[currentTrackIndex].title}`;
       }
 
       function setupAudioGraph() {
@@ -549,7 +649,6 @@
         const n = dataArray.length;
         const bassEnd = Math.floor(n * 0.1);
         const midEnd = Math.floor(n * 0.45);
-
         let bassSum = 0;
         let midSum = 0;
         let trebSum = 0;
@@ -577,54 +676,54 @@
         if (hydra) return;
         hydra = new Hydra({
           detectAudio: false,
-          canvas: document.getElementById("hydra-canvas"),
+          canvas: document.getElementById("hydra-canvas")
         });
       }
 
       function startDreamwave() {
         osc(() => 5 + 20 * bass, 0.02, () => 0.25 + 0.2 * mid)
-          .rotate(() => time * 0.03 + 0.18 * bass + smoothX * 0.14)
-          .kaleid(() => 3 + Math.floor(3 * treb))
-          .scale(() => 1.02 + 0.05 * lvl + smoothY * 0.05)
-          .color(() => 1.0 + 0.3 * treb, 0.5 + 0.25 * mid, 1.1)
-          .saturate(() => 1.0 + 1.1 * treb)
+          .rotate(() => time * 0.03 + 0.18 * bass + smoothX * 0.24)
+          .kaleid(() => 3 + Math.floor(4 * treb))
+          .scale(() => 1.02 + 0.08 * lvl + smoothY * 0.07)
+          .color(() => 1.0 + 0.35 * treb, 0.5 + 0.3 * mid, 1.1)
+          .saturate(() => 1.0 + 1.2 * treb)
           .out(o1);
 
         noise(() => 2 + 5 * mid, () => 0.08 + 0.18 * treb)
-          .scrollX(() => smoothX * 0.08)
-          .scrollY(() => smoothY * 0.05)
-          .contrast(() => 1.0 + 0.7 * lvl)
+          .scrollX(() => smoothX * 0.12)
+          .scrollY(() => smoothY * 0.1)
+          .contrast(() => 1.0 + 0.8 * lvl)
           .out(o2);
 
-        src(o0).scale(() => 1.002 + 0.028 * bass).out(o3);
+        src(o0).scale(() => 1.002 + 0.032 * bass).out(o3);
 
         src(o1)
-          .blend(src(o2), () => 0.25 + 0.18 * mid)
+          .blend(src(o2), () => 0.25 + 0.2 * mid)
           .blend(src(o3), 0.42)
-          .hue(() => 0.02 + 0.1 * lvl)
+          .hue(() => 0.02 + 0.12 * lvl + smoothX * 0.04)
           .out(o0);
 
         render(o0);
       }
 
       function startPulsefield() {
-        osc(() => 9 + 35 * bass, 0.035, () => 0.4 + 0.22 * treb)
-          .rotate(() => time * 0.05 + 0.35 * bass + smoothX * 0.16)
-          .kaleid(() => 4 + Math.floor(4 * treb))
-          .scale(() => 1.0 + 0.08 * lvl + smoothY * 0.04)
-          .modulate(noise(() => 2 + 4 * mid), () => 0.08 + 0.14 * bass)
-          .color(1.2, () => 0.3 + 0.4 * mid, () => 0.8 + 0.5 * treb)
+        osc(() => 9 + 38 * bass, 0.035, () => 0.4 + 0.25 * treb)
+          .rotate(() => time * 0.05 + 0.35 * bass + smoothX * 0.28)
+          .kaleid(() => 4 + Math.floor(5 * treb))
+          .scale(() => 1.0 + 0.1 * lvl + smoothY * 0.06)
+          .modulate(noise(() => 2 + 4 * mid), () => 0.08 + 0.16 * bass)
+          .color(1.2, () => 0.3 + 0.45 * mid, () => 0.8 + 0.55 * treb)
           .out(o1);
 
-        shape(() => 3 + Math.floor(5 * treb), () => 0.2 + 0.18 * bass, 0.001)
+        shape(() => 3 + Math.floor(6 * treb), () => 0.2 + 0.2 * bass, 0.001)
           .repeat(2, 2)
-          .rotate(() => time * 0.02 - smoothX * 0.2)
-          .scrollY(() => smoothY * 0.06)
+          .rotate(() => time * 0.025 - smoothX * 0.28)
+          .scrollY(() => smoothY * 0.08)
           .out(o2);
 
         src(o1)
-          .blend(src(o2), () => 0.22 + 0.2 * mid)
-          .blend(src(o0).scale(() => 1.003 + 0.04 * bass), 0.34)
+          .blend(src(o2), () => 0.22 + 0.24 * mid)
+          .blend(src(o0).scale(() => 1.003 + 0.045 * bass), 0.34)
           .out(o0);
 
         render(o0);
@@ -632,21 +731,45 @@
 
       function startAfterglow() {
         osc(() => 4 + 14 * bass, 0.015, () => 0.18 + 0.14 * mid)
-          .rotate(() => time * 0.02 + 0.12 * bass + smoothX * 0.08)
-          .scale(() => 1.01 + 0.03 * lvl + smoothY * 0.03)
-          .color(() => 0.95 + 0.2 * treb, 0.4 + 0.15 * mid, 1.2)
+          .rotate(() => time * 0.02 + 0.12 * bass + smoothX * 0.14)
+          .scale(() => 1.01 + 0.04 * lvl + smoothY * 0.04)
+          .color(() => 0.95 + 0.25 * treb, 0.4 + 0.18 * mid, 1.2)
           .out(o1);
 
-        voronoi(() => 2 + 2.5 * treb, () => 0.25 + 0.18 * bass, 0.3)
-          .brightness(() => -0.1 + 0.08 * lvl)
-          .scrollX(() => smoothX * 0.03)
-          .scrollY(() => smoothY * 0.03)
+        voronoi(() => 2 + 3 * treb, () => 0.25 + 0.2 * bass, 0.3)
+          .brightness(() => -0.1 + 0.1 * lvl)
+          .scrollX(() => smoothX * 0.06)
+          .scrollY(() => smoothY * 0.06)
           .out(o2);
 
         src(o1)
-          .blend(src(o2), () => 0.18 + 0.16 * mid)
-          .blend(src(o0).scale(() => 1.001 + 0.022 * bass), 0.5)
-          .hue(() => 0.01 + 0.08 * treb)
+          .blend(src(o2), () => 0.18 + 0.18 * mid)
+          .blend(src(o0).scale(() => 1.001 + 0.025 * bass), 0.5)
+          .hue(() => 0.01 + 0.09 * treb + smoothX * 0.03)
+          .out(o0);
+
+        render(o0);
+      }
+
+      function startMoonpool() {
+        osc(() => 3 + 12 * bass, 0.01, () => 0.12 + 0.12 * mid)
+          .modulate(voronoi(() => 1.8 + 3 * treb, 0.28, 0.4), () => 0.08 + 0.16 * lvl)
+          .rotate(() => time * 0.018 + smoothX * 0.18)
+          .scale(() => 1.04 + 0.05 * bass + smoothY * 0.05)
+          .kaleid(() => 2 + Math.floor(4 * mid))
+          .color(() => 0.75 + 0.22 * treb, () => 0.5 + 0.28 * mid, 1.25)
+          .out(o1);
+
+        noise(() => 1.4 + 4 * treb, 0.16)
+          .thresh(() => 0.38 + 0.18 * smoothY, 0.04)
+          .scrollX(() => smoothX * 0.05)
+          .scrollY(() => time * 0.02 + smoothY * 0.04)
+          .out(o2);
+
+        src(o1)
+          .blend(src(o2), () => 0.16 + 0.22 * treb)
+          .blend(src(o0).scale(() => 1.002 + 0.035 * bass), 0.48)
+          .hue(() => 0.02 + 0.1 * lvl)
           .out(o0);
 
         render(o0);
@@ -662,9 +785,12 @@
           startPulsefield();
         } else if (preset === "afterglow") {
           startAfterglow();
+        } else if (preset === "moonpool") {
+          startMoonpool();
         } else {
           startDreamwave();
         }
+
         updatePresetText(preset);
       }
 
@@ -673,10 +799,13 @@
         const track = tracks[index];
         audio.src = track.file;
         updatePresetText(track.preset);
+        updateNowPlaying();
         renderTrackButtons();
+
         if (hydraStarted) {
           applyPreset(track.preset);
         }
+
         if (autoplay) {
           try {
             await audio.play();
@@ -686,35 +815,41 @@
         }
       }
 
-      audio.addEventListener("ended", async () => {
-        const nextIndex = (currentTrackIndex + 1) % tracks.length;
-        await loadTrack(nextIndex, true);
-      });
-
       async function startExperience() {
         if (!hydraStarted) {
           buildHydra();
           setupAudioGraph();
           if (audioCtx) await audioCtx.resume();
           hydraStarted = true;
-          heroOverlay.classList.add("hidden");
-          bottomPanelWrap.classList.remove("hidden");
-          const activeTrack = tracks[currentTrackIndex];
-          applyPreset(activeTrack.preset);
+          applyPreset(tracks[currentTrackIndex].preset);
         }
+
+        if (audioCtx && audioCtx.state === "suspended") {
+          await audioCtx.resume();
+        }
+
         await loadTrack(currentTrackIndex, true);
       }
 
-      startButton.addEventListener("click", startExperience);
+      async function enterFullscreenVisuals() {
+        await startExperience();
+        body.classList.add("fullscreen-active");
+      }
 
-      playToggle.addEventListener("click", async () => {
+      function returnToSelections() {
+        body.classList.remove("fullscreen-active");
+      }
+
+      async function togglePlay() {
         if (!hydraStarted) {
           await startExperience();
           return;
         }
+
         if (audioCtx && audioCtx.state === "suspended") {
           await audioCtx.resume();
         }
+
         if (audio.paused) {
           try {
             await audio.play();
@@ -724,17 +859,35 @@
         } else {
           audio.pause();
         }
-      });
+      }
+
+      async function goToNextTrack() {
+        const nextIndex = (currentTrackIndex + 1) % tracks.length;
+        await loadTrack(nextIndex, true);
+      }
+
+      audio.addEventListener("ended", goToNextTrack);
+      startButton.addEventListener("click", startExperience);
+      fullscreenButton.addEventListener("click", enterFullscreenVisuals);
+      playToggle.addEventListener("click", togglePlay);
+      stagePlayToggle.addEventListener("click", togglePlay);
+      nextTrack.addEventListener("click", goToNextTrack);
+      backToSelections.addEventListener("click", returnToSelections);
 
       window.addEventListener("keydown", async (event) => {
         if (event.code === "Space") {
           event.preventDefault();
-          playToggle.click();
+          await togglePlay();
+        }
+
+        if (event.code === "Escape") {
+          returnToSelections();
         }
       });
 
       renderTrackButtons();
       updatePresetText(tracks[0].preset);
+      updateNowPlaying();
       audio.src = tracks[0].file;
     </script>
   </body>
