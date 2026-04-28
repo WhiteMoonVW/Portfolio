@@ -15,19 +15,19 @@
         --cyan: #77f7ff;
         --white: #ffffff;
         --black: #000000;
-        --panel: rgba(255, 255, 255, 0.06);
-        --border: rgba(255, 255, 255, 0.14);
+        --panel: rgba(255, 255, 255, 0.12);
+        --border: rgba(255, 255, 255, 0.22);
         --shadow-soft: 0 0 24px rgba(255, 106, 213, 0.18);
         --shadow-strong: 0 0 40px rgba(185, 103, 255, 0.22);
       }
 
       * { box-sizing: border-box; }
       html { scroll-behavior: smooth; }
+
       body {
         margin: 0;
         font-family: Arial, Helvetica, sans-serif;
         color: #000000;
-        background:
         background: url("Wave Crashing glass vaporwave.jpg") no-repeat center center fixed;
         background-size: cover;
         min-height: 100vh;
@@ -37,100 +37,177 @@
       .page-shell { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; }
 
       .top-nav {
-        display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-        gap: 1rem; padding: 1.5rem 0 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.5rem 0 1rem;
       }
-      .brand { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.22em; }
+
+      .brand { font-size: 1.05rem; font-weight: 800; letter-spacing: 0.22em; }
       .nav-links { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
       .glow-button {
-        display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-        min-height: 46px; padding: 0.8rem 1.2rem; border-radius: 999px;
-        border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05);
-        color: #000000; font-size: 0.95rem; font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        min-height: 46px;
+        padding: 0.8rem 1.2rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.28);
+        background: rgba(255,255,255,0.16);
+        color: #000000;
+        font-size: 0.95rem;
+        font-weight: 800;
         box-shadow: 0 0 18px rgba(255,106,213,0.22), 0 0 28px rgba(185,103,255,0.14);
         transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         cursor: pointer;
       }
+
       .glow-button:hover {
         transform: translateY(-2px) scale(1.02);
-        background: rgba(255,255,255,0.1);
-        border-color: rgba(255,255,255,0.35);
+        background: rgba(255,255,255,0.24);
+        border-color: rgba(255,255,255,0.45);
         box-shadow: 0 0 24px rgba(255,106,213,0.34), 0 0 34px rgba(106,168,255,0.18);
       }
 
       .hero, .section { padding-bottom: 3.5rem; }
       .hero { padding-top: 1rem; }
-      .hero-grid, .intro-grid, .music-grid, .track-grid, .footer-card {
-        display: grid; gap: 1.25rem;
+
+      .hero-grid, .intro-grid, .music-grid, .footer-card {
+        display: grid;
+        gap: 1.25rem;
       }
+
       .hero-grid { grid-template-columns: 1.1fr 0.9fr; align-items: center; }
       .intro-grid { grid-template-columns: 0.9fr 1.1fr; }
       .music-grid { grid-template-columns: 1fr 1fr; }
-      .track-grid { grid-template-columns: 1fr; }
 
       .panel, .section-card, .track-card, .footer-card {
-        border-radius: 2rem; border: 1px solid var(--border); background: var(--panel); backdrop-filter: blur(14px);
+        border-radius: 2rem;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        backdrop-filter: blur(14px);
       }
+
       .panel, .section-card, .track-card { padding: 1.6rem; }
       .panel { box-shadow: var(--shadow-strong); }
       .section-card, .track-card, .footer-card { box-shadow: var(--shadow-soft); }
       .footer-card { padding: 1.3rem 1.5rem; grid-template-columns: 1fr auto; align-items: center; }
 
       .eyebrow, .section-kicker {
-        font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em;
+        font-size: 0.85rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
       }
+
       .eyebrow {
-        display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.7rem 1rem;
-        border-radius: 999px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);
-        box-shadow: var(--shadow-soft); margin-bottom: 1.2rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.7rem 1rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.2);
+        background: rgba(255,255,255,0.14);
+        box-shadow: var(--shadow-soft);
+        margin-bottom: 1.2rem;
       }
+
       .sparkle-dot {
-        width: 10px; height: 10px; border-radius: 50%;
-        background: linear-gradient(135deg, var(--pink), var(--purple)); box-shadow: 0 0 14px var(--pink);
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        box-shadow: 0 0 14px var(--pink);
       }
 
       h1 { margin: 0 0 1rem; font-size: clamp(2.6rem, 7vw, 5rem); line-height: 1; }
       h2 { margin: 0 0 0.85rem; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.08; }
       h3 { margin: 0 0 0.5rem; font-size: 1.45rem; }
-      p { margin: 0; line-height: 1.85; font-size: 1rem; }
+      p { margin: 0; line-height: 1.85; font-size: 1rem; font-weight: 600; }
+
       .section-header { margin-bottom: 1.4rem; }
       .hero-actions, .button-row, .track-actions, .mini-tags { display: flex; flex-wrap: wrap; gap: 0.85rem; }
       .hero-actions, .button-row { margin-top: 1.4rem; }
       .mini-tags { margin-top: 1rem; }
+
       .mini-tag {
-        padding: 0.55rem 0.9rem; border-radius: 999px; border: 1px solid rgba(255,255,255,0.14);
-        background: rgba(255,255,255,0.06); font-size: 0.9rem;
+        padding: 0.55rem 0.9rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.2);
+        background: rgba(255,255,255,0.14);
+        font-size: 0.9rem;
+        font-weight: 800;
       }
 
       .track-card { position: relative; overflow: hidden; }
+
       .track-card::before {
-        content: ""; position: absolute; inset: 0;
+        content: "";
+        position: absolute;
+        inset: 0;
         background: linear-gradient(135deg, rgba(255,106,213,0.08), rgba(185,103,255,0.03));
         pointer-events: none;
       }
-      .track-card-content { position: relative; }
-      .track-meta { font-size: 0.95rem; margin-bottom: 0.9rem; color: rgba(255,255,255,0.95); }
-      .track-description { margin-bottom: 1rem; }
-      .lyrics-block {
-        margin-top: 1rem; padding: 1rem 1.1rem; border-radius: 1.35rem; border: 1px solid rgba(255,255,255,0.1);
-        background: rgba(0,0,0,0.18);
+
+      .track-card-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        height: 100%;
       }
-      .lyrics-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; }
+
+      .track-meta { font-size: 0.95rem; color: rgba(0,0,0,0.86); }
+      .track-description { margin-bottom: 0.25rem; }
+
+      .audio-player {
+        width: 100%;
+        margin-top: auto;
+        border-radius: 999px;
+      }
+
+      .lyrics-block {
+        margin-top: 0.4rem;
+        padding: 1rem 1.1rem;
+        border-radius: 1.35rem;
+        border: 1px solid rgba(255,255,255,0.16);
+        background: rgba(255,255,255,0.12);
+      }
+
+      .lyrics-title {
+        font-size: 0.95rem;
+        font-weight: 800;
+        margin-bottom: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
 
       .quick-links {
-        display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; margin-top: 1rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.9rem;
+        margin-top: 1rem;
       }
-      .quick-link {
-        padding: 1rem; border-radius: 1.35rem; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2);
-      }
-      .quick-link strong { display: block; margin-bottom: 0.35rem; }
 
+      .quick-link {
+        padding: 1rem;
+        border-radius: 1.35rem;
+        border: 1px solid rgba(255,255,255,0.18);
+        background: rgba(255,255,255,0.14);
+        font-weight: 700;
+      }
+
+      .quick-link strong { display: block; margin-bottom: 0.35rem; }
       .footer { padding-bottom: 2.5rem; }
 
       @media (max-width: 980px) {
         .hero-grid, .intro-grid, .music-grid, .quick-links { grid-template-columns: 1fr; }
       }
+
       @media (max-width: 680px) {
         .page-shell { width: min(100% - 1.2rem, 1180px); }
         .nav-links, .hero-actions, .button-row, .track-actions { width: 100%; }
@@ -161,9 +238,7 @@
               <span>Music by White Moon</span>
             </div>
             <h1>Music</h1>
-            <p>
-              Featured releases, newest tracks, lyrics, and project notes.
-            </p>
+            <p>Featured releases, newest tracks, lyrics, and project notes.</p>
             <div class="hero-actions">
               <a class="glow-button" href="#featured-tracks">Featured tracks</a>
               <a class="glow-button" href="hydra.html">Open Hydra</a>
@@ -175,6 +250,7 @@
               <span class="mini-tag">Featured Tracks</span>
               <span class="mini-tag">Lyrics</span>
               <span class="mini-tag">Process Notes</span>
+              <span class="mini-tag">Inline Audio</span>
             </div>
           </div>
         </div>
@@ -186,29 +262,25 @@
             <div class="section-card">
               <p class="section-kicker">About the music</p>
               <h2>Story-first, emotion-led, always evolving</h2>
-              <p>
-                Music has been a constant in my life for years, and this page is built to reflect that clearly.
-              </p>
+              <p>Music has been a constant in my life for years, and this page is built to reflect that clearly.</p>
             </div>
 
             <div class="section-card">
               <h2>Featured tracks</h2>
-              <p>
-                Core music catalog.
-              </p>
+              <p>Core music catalog.</p>
               <div class="quick-links">
-                <div class="quick-link">
+                <a class="quick-link" href="#featured-tracks">
                   <strong>Featured</strong>
                   Main songs and highlights
-                </div>
-                <div class="quick-link">
+                </a>
+                <a class="quick-link" href="#newest-tracks">
                   <strong>Newest</strong>
                   Process and recent work
-                </div>
-                <div class="quick-link">
+                </a>
+                <a class="quick-link" href="littles.html">
                   <strong>Little's Music</strong>
                   Music For the Littlest of Littles
-                </div>
+                </a>
               </div>
             </div>
           </div>
@@ -225,11 +297,10 @@
               <div class="track-card-content">
                 <h3>House</h3>
                 <p class="track-meta">Electronic / Experimental • Presented at West Fork New Music Festival, NSEME LSU • 2017</p>
-                <p class="track-description">
-                  “House” represents the mind and the thoughts that dwell inside it — especially intrusive thoughts that repeat and replay. Inspired by my own inability to sleep; reflects my early electronic music period and love of synthesizers, layered harmonies, and chopped vocal fragments.
-                </p>
+                <p class="track-description">“House” represents the mind and the thoughts that dwell inside it — especially intrusive thoughts that repeat and replay. Inspired by my own inability to sleep; reflects my early electronic music period and love of synthesizers, layered harmonies, and chopped vocal fragments.</p>
+                <audio class="audio-player" controls preload="metadata" src="House 2026.mp3"></audio>
                 <div class="track-actions">
-                  <a class="glow-button" href="House 2026.mp3">Play House</a>
+                  <a class="glow-button" href="House 2026.mp3" download>Download House</a>
                   <a class="glow-button" href="hydra.html">Hydra Experience</a>
                 </div>
               </div>
@@ -239,8 +310,7 @@
               <div class="track-card-content">
                 <h3>Iridescent</h3>
                 <p class="track-meta">Alt Pop / Songwriter • Presented at Durango Songwriters Expo • 2020</p>
-                <p class="track-description">
-                  A reflective, color-soaked track centered on perception, mind, and spiritual imagery. Audio connects to the visual world.
+                <p class="track-description">A reflective, color-soaked track centered on perception, mind, and spiritual imagery. Audio connects to the visual world.</p>
                 <div class="lyrics-block">
                   <div class="lyrics-title">Lyrics highlight</div>
                   <p>
@@ -248,7 +318,10 @@
                     I run on higher frequencies.<br /><br />
                     Your planetary populous, no they ain't never stopping us.
                   </p>
-                  <a class="glow-button" href="Iridescent (for Radio).mp3">Play Iridescent</a>
+                </div>
+                <audio class="audio-player" controls preload="metadata" src="Iridescent (for Radio).mp3"></audio>
+                <div class="track-actions">
+                  <a class="glow-button" href="Iridescent (for Radio).mp3" download>Download Iridescent</a>
                 </div>
               </div>
             </article>
@@ -257,10 +330,11 @@
               <div class="track-card-content">
                 <h3>Open Up Your Mind</h3>
                 <p class="track-meta">Pop Ballad / Reflection • Durango Songwriters Expo • 2020</p>
-                <p class="track-description">
-                  Written during a years' long college break, this piece reflects upon human nature and codependency.
-                </p>
-                <a class="glow-button" href="Open Up Your Mind - 2026.mp3">Play Open Up Your Mind</a>
+                <p class="track-description">Written during a years' long college break, this piece reflects upon human nature and codependency.</p>
+                <audio class="audio-player" controls preload="metadata" src="Open Up Your Mind - 2026.mp3"></audio>
+                <div class="track-actions">
+                  <a class="glow-button" href="Open Up Your Mind - 2026.mp3" download>Download Track</a>
+                </div>
               </div>
             </article>
 
@@ -268,19 +342,21 @@
               <div class="track-card-content">
                 <h3>Afterlife</h3>
                 <p class="track-meta">Piano / Vocal Process • Released 2023</p>
-                <p class="track-description">
-                  I heard the melody internally, figured it out by ear, layered piano parts in Logic, and shaping the song through performance and recording.
-                </p>
+                <p class="track-description">I heard the melody internally, figured it out by ear, layered piano parts in Logic, and shaped the song through performance and recording.</p>
+                <p><strong>Instrumental version</strong></p>
+                <audio class="audio-player" controls preload="metadata" src="Afterlife.mp3"></audio>
+                <p><strong>Vocal version</strong></p>
+                <audio class="audio-player" controls preload="metadata" src="afterlife-with-vocals.m4a"></audio>
                 <div class="button-row">
-                  <a class="glow-button" href="Afterlife.mp3">Instrumental version</a>
-                  <a class="glow-button" href="afterlife-with-vocals.m4a">Vocal version</a>
+                  <a class="glow-button" href="Afterlife.mp3" download>Download Instrumental</a>
+                  <a class="glow-button" href="afterlife-with-vocals.m4a" download>Download Vocal</a>
                 </div>
               </div>
             </article>
           </div>
         </section>
 
-        <section class="section">
+        <section class="section" id="newest-tracks">
           <div class="section-header">
             <p class="section-kicker">But Wait, There's More!</p>
             <h2>Newest tracks and Little's Music</h2>
@@ -289,9 +365,7 @@
           <div class="music-grid">
             <div class="section-card">
               <h3>Newest tracks</h3>
-              <p>
-                Newest releases, demos, and in-progress ideas.
-              </p>
+              <p>Newest releases, demos, and in-progress ideas.</p>
               <div class="mini-tags">
                 <span class="mini-tag">Afterlife</span>
                 <span class="mini-tag">Age of the Dinosaurs</span>
@@ -301,7 +375,10 @@
 
             <div class="section-card">
               <h3>Little's Music</h3>
-              <a class="glow-button" href="littles.html">For the Littlest</a>
+              <p>Music For the Littlest of Littles.</p>
+              <div class="button-row">
+                <a class="glow-button" href="littles.html">For the Littlest</a>
+              </div>
               <div class="mini-tags">
                 <span class="mini-tag">Age of the Dinosaurs</span>
                 <span class="mini-tag">Don't You Cry</span>
@@ -314,6 +391,7 @@
         <section class="section">
           <div class="section-card">
             <h2>Music page to Hydra</h2>
+            <p>Open the full visualizer experience and choose a track for reactive visuals.</p>
             <div class="hero-actions">
               <a class="glow-button" href="index.html">Back to main page</a>
               <a class="glow-button" href="hydra.html">Experience Hydra</a>
