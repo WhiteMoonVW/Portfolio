@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>White Moon Productions</title>
+    <title>WMVW Productions</title>
+    <link rel="icon" type="image/png" href="WMVW-Moon-LOGO-MASTER.png"/>
+
     <style>
       :root {
         --bg-dark: #080510;
@@ -33,12 +35,11 @@
       body {
         margin: 0;
         font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
         color: #000000;
         background: url("Wave Crashing glass vaporwave.jpg") no-repeat center center fixed;
         background-size: cover;
 
-        min-height: 100vh;
-        
         min-height: 100vh;
       }
 
@@ -57,6 +58,13 @@
         margin: 0 auto;
       }
 
+      .logo {
+        width: 500px;
+        height: 50px;
+        object-fit: contain;
+        align-items: center;
+      }
+
       .top-nav {
         display: flex;
         flex-wrap: wrap;
@@ -67,8 +75,8 @@
       }
 
       .brand {
-        font-size: 1.05rem;
-        font-weight: 700;
+        font-size: 1.50rem;
+        font-weight: 900;
         letter-spacing: 0.22em;
       }
 
@@ -130,12 +138,18 @@
         margin-bottom: 1.25rem;
       }
 
-      .sparkle-dot {
-        width: 10px;
-        height: 10px;
+      .eyebrow-icon {
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
         border-radius: 50%;
-        background: linear-gradient(135deg, var(--pink), var(--purple));
-        box-shadow: 0 0 14px var(--pink);
+        flex: 0 0 auto;
+        transition: transform 0.25s ease, filter 0.25s ease;
+      }
+
+      .eyebrow:hover .eyebrow-icon {
+        transform: rotate(10deg) scale(1.05);
+        filter: brightness(1.12);
       }
 
       .hero h1 {
@@ -260,6 +274,34 @@
         padding: 1.75rem;
       }
 
+      .about-profile-card {
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .about-profile-card .section-kicker,
+      .about-profile-card .section-title,
+      .about-profile-card .about-text {
+        margin-left: 1.75rem;
+        margin-right: 1.75rem;
+      }
+
+      .about-profile-card .section-kicker {
+        margin-top: 1.75rem;
+      }
+
+      .about-profile-card .about-text:last-child {
+        margin-bottom: 1.75rem;
+      }
+
+      .about-portrait {
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+        object-position: center top;
+        border-bottom: 1px solid var(--border);
+      }
+
       .icon-badge {
         width: 52px;
         height: 52px;
@@ -272,6 +314,13 @@
         background: rgba(255, 255, 255, 0.1);
         box-shadow: 0 0 20px rgba(255, 106, 213, 0.16);
         font-size: 1.4rem;
+        overflow: hidden;
+      }
+
+      .icon-badge img {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
       }
 
       .card-title {
@@ -319,6 +368,10 @@
         flex-direction: column;
         gap: 1rem;
         height: 100%;
+      }
+
+      .page-card-content .glow-button {
+        margin-top: auto;
       }
 
       .music-section-wrap {
@@ -431,7 +484,8 @@
     <div class="page-shell">
       <header class="hero" id="top">
         <nav class="top-nav">
-          <div class="brand">White Moon Productions</div>
+          <div class="brand">WMVW Productions</div>
+          <img class="logo" src="WMVW.png" alt="WMVW Productions logo"/>
           <div class="nav-links">
             <a class="glow-button" href="index.html">Home</a>
             <a class="glow-button" href="music.html">Music</a>
@@ -445,16 +499,16 @@
         <div class="hero-grid">
           <div>
             <div class="eyebrow">
-              <span class="sparkle-dot"></span>
-              <span>Designs and creations by Mya</span>
+              <img class="eyebrow-icon" src="WMVW-Moon-LOGO-Frame-3.png" alt="WMVW Productions logo, a stylized crescent moon with a gradient of pink and purple" />
+              <span>Audio and Visuals by Mya</span>
             </div>
-            <h1>White Moon Productions</h1>
+            <h1>WMVW Audio/Visual Productions</h1>
             <p>
               Music, digital art, design, videography, editing,
               and immersive visual storytelling.
             </p>
             <div class="hero-actions">
-              <a class="glow-button" href="#pages">Explore the portfolio</a>
+              <a class="glow-button" href="#pages">Check Out My Creations</a>
               <a class="glow-button" href="hydra.html">Launch Hydra experience</a>
             </div>
           </div>
@@ -477,7 +531,7 @@
               </div>
             </div>
             <p class="panel-text">
-              White Moon Meets Vayporwayve
+            Through experimentation comes expression.
             </p>
           </div>
         </div>
@@ -486,19 +540,21 @@
       <main>
         <section class="section">
           <div class="about-grid">
-            <div class="about-card">
-              <p class="section-kicker">About WayVe</p>
-              <h2 class="section-title">Artist. Designer. Storyteller.</h2>
+            <div class="about-card about-profile-card">
+              <p class="section-kicker">About WMVW</p>
+              <img class="about-portrait" src="WMVW-Pink-Profile-Pic-2.png" alt="Pink and lavender illustrated portrait representing the style of WMVW Productions">
+              <h2 class="section-title">Artist. Designer. Musician. Storyteller.</h2>
               <p class="about-text">
-                Hey there, I'm an artist with a passion for design, music, and creativity. 
-                WayVe's World is a central hub for my work, showcasing the different 
-                creative directions I explore 
-                                              and the worlds I build.
+                WMVW Productions is the creative world of Mya Payne, a multi-disciplinary artist 
+                and musician. The work produced here is a reflection of her personal style, 
+                aesthetic, and creative vision.
               </p>
               <br />
               <p class="about-text">
-                From music production to digital art to web-based visual experiments, 
-                expression is the central theme to the work I do. 
+                The goal of WMVW Productions is to create immersive audio-visual experiences 
+                that engage the senses and evoke emotion. From music composition to digital art, 
+                design, and videography, Mya's work is a testament to her passion for creativity 
+                and storytelling.
               </p>
             </div>
 
@@ -508,7 +564,7 @@
                 <h3 class="card-title">Music</h3>
                 <p class="card-subtitle">Composition, songwriting, vocal production</p>
                 <p class="card-text">
-                  Featured tracks, newest releases, lyrics
+                  Featured tracks, newest releases, demos, and inspiration.
                 </p>
               </div>
 
@@ -595,7 +651,9 @@
           <div class="links-grid">
             <div class="page-card">
               <div class="page-card-content">
-                <div class="icon-badge">♫</div>
+                <div class="icon-badge">
+                  <img src="icon-music.png" alt="">
+                </div>
                 <h3 class="card-title">Music</h3>
                 <p class="card-text">
                   Featured releases, newest tracks, lyrics, and project notes.
@@ -650,7 +708,7 @@
 
       <footer class="footer">
         <div class="footer-card">
-          <div>&copy; 2026 White Moon Productions</div>
+          <div>&copy; 2026 WMVW Productions</div>
           <div>Designed by Mya Payne</div>
         </div>
       </footer>
